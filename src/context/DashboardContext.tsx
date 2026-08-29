@@ -1,0 +1,240 @@
+import React, { createContext, useContext, useState, useMemo } from 'react';
+import type { 
+  PerformanceStatus, 
+  GlobalFilters, 
+  TheoryOfChangeNode, 
+  IndicatorMetadata, 
+  Project, 
+  Department, 
+  Framework,
+  ManagementAlert
+} from '../types/dashboard';
+import { 
+  mockFrameworks, 
+  mockProjects, 
+  mockDepartments, 
+  mockIndicators, 
+  mockTheoryOfChangeTree,
+  mockAlerts 
+} from '../data/mockData';
+
+export type MainTab = 
+  | 'overview' 
+  | 'frameworks' 
+  | 'projects' 
+  | 'departments' 
+  | 'cross-cutting' 
+  | 'indicators' 
+  | 'reports' 
+  | 'alerts' 
+  | 'data-quality' 
+  | 'settings';
+
+export type TocVisualizationMode = 'tree' | 'chart' | 'flow' | 'table';
+
+interface DashboardContextType {
+  activeTab: MainTab;
+  setActiveTab: (tab: MainTab) => void;
+  
+  filters: GlobalFilters;
+  setFilters: React.Dispatch<React.SetStateAction<GlobalFilters>>;
+  resetFilters: () => void;
+  
+  selectedTocNode: TheoryOfChangeNode | null;
+  setSelectedTocNode: (node: TheoryOfChangeNode | null) => void;
+  drillDownPath: TheoryOfChangeNode[];
+  drillDownToNode: (node: TheoryOfChangeNode) => void;
+  popDrillDown: () => void;
+  resetDrillDown: () => void;
+  
+  selectedIndicator: IndicatorMetadata | null;
+  setSelectedIndicator: (indicator: IndicatorMetadata | null) => void;
+  openIndicatorByCode: (code: string) => void;
+  
+  viewMode: 'executive' | 'technical';
+  setViewMode: (mode: 'executive' | 'technical') => void;
+  
+  tocVisualization: TocVisualizationMode;
+  setTocVisualization: (mode: TocVisualizationMode) => void;
+  
+  isAlertDrawerOpen: boolean;
+  setIsAlertDrawerOpen: (open: boolean) => void;
+  
+  // Datasets
+  frameworks: Framework[];
+  projects: Project[];
+  departments: Department[];
+  indicators: IndicatorMetadata[];
+  theoryOfChangeTree: TheoryOfChangeNode;
+  alerts: ManagementAlert[];
+  
+  // Computed values
+  filteredIndicators: IndicatorMetadata[];
+  selectedProject: Project | null;
+  selectedDepartment: Department | null;
+  selectedFramework: Framework | null;
+}
+
+const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
+
+export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [activeTab, setActiveTab] = useState<MainTab>('overview');
+  
+  const [filters, setFilters] = useState<GlobalFilters>({
+    reportingPeriod: '2026/27',
+    financialYear: '2026/27',
+    frameworkId: 'all',
+    departmentId: 'all',
+    projectId: 'all',
+    status: 'all',
+    searchQuery: ''
+  });
+  
+  const [drillDownPath, setDrillDownPath] = useState<TheoryOfChangeNode[]>([mockTheoryOfChangeTree]);
+  const [selectedTocNode, setSelectedTocNodeState] = useState<TheoryOfChangeNode | null>(mockTheoryOfChangeTree);
+  
+  const [selectedIndicator, setSelectedIndicator] = useState<IndicatorMetadata | null>(null);
+  const [viewMode, setViewMode] = useState<'executive' | 'technical'>('executive');
+  const [tocVisualization, setTocVisualization] = useState<TocVisualizationMode>('tree');
+  const [isAlertDrawerOpen, setIsAlertDrawerOpen] = useState(false);
+
+  const resetFilters = () => {
+    setFilters({
+      reportingPeriod: '2026/27',
+      financialYear: '2026/27',
+      frameworkId: 'all',
+      departmentId: 'all',
+      projectId: 'all',
+      status: 'all',
+      searchQuery: ''
+    });
+  };
+
+  const setSelectedTocNode = (node: TheoryOfChangeNode | null) => {
+    setSelectedTocNodeState(node);
+  };
+
+  const drillDownToNode = (node: TheoryOfChangeNode) => {
+    setSelectedTocNodeState(node);
+    const existingIndex = drillDownPath.findIndex(p => p.id === node.id);
+    if (existingIndex !== -1) {
+      setDrillDownPath(drillDownPath.slice(0, existingIndex + 1));
+    } else {
+      setDrillDownPath([...drillDownPath, node]);
+    }
+  };
+
+  const popDrillDown = () => {
+    if (drillDownPath.length > 1) {
+      const newPath = drillDownPath.slice(0, drillDownPath.length - 1);
+      setDrillDownPath(newPath);
+      setSelectedTocNodeState(newPath[newPath.length - 1]);
+    }
+  };
+
+  const resetDrillDown = () => {
+    setDrillDownPath([mockTheoryOfChangeTree]);
+    setSelectedTocNodeState(mockTheoryOfChangeTree);
+  };
+
+  const openIndicatorByCode = (code: string) => {
+    const ind = mockIndicators.find(i => i.code === code);
+    if (ind) {
+      setSelectedIndicator(ind);
+    }
+  };
+
+  const filteredIndicators = useMemo(() => {
+    return mockIndicators.filter(ind => {
+      if (filters.frameworkId !== 'all') {
+        const hasFramework = ind.alignedFrameworks.some(af => af.frameworkId === filters.frameworkId);
+        if (!hasFramework) return false;
+      }
+      if (filters.departmentId !== 'all' && ind.responsibleDepartmentId !== filters.departmentId) {
+        return false;
+      }
+      if (filters.projectId !== 'all' && !ind.relatedProjectIds.includes(filters.projectId)) {
+        return false;
+      }
+      if (filters.status !== 'all') {
+        let indStatus: PerformanceStatus = 'NODATA';
+        if (ind.actual !== null) {
+          const ratio = ind.isInverse ? (ind.target / ind.actual) * 100 : (ind.actual / ind.target) * 100;
+          if (ratio >= 90) indStatus = 'GREEN';
+          else if (ratio >= 70) indStatus = 'YELLOW';
+          else indStatus = 'RED';
+        }
+        if (indStatus !== filters.status) return false;
+      }
+      if (filters.searchQuery.trim() !== '') {
+        const query = filters.searchQuery.toLowerCase();
+        const match = ind.code.toLowerCase().includes(query) ||
+                      ind.name.toLowerCase().includes(query) ||
+                      ind.responsibleDepartmentName.toLowerCase().includes(query) ||
+                      ind.definition.toLowerCase().includes(query);
+        if (!match) return false;
+      }
+      return true;
+    });
+  }, [filters]);
+
+  const selectedProject = useMemo(() => {
+    if (filters.projectId === 'all') return null;
+    return mockProjects.find(p => p.id === filters.projectId) || null;
+  }, [filters.projectId]);
+
+  const selectedDepartment = useMemo(() => {
+    if (filters.departmentId === 'all') return null;
+    return mockDepartments.find(d => d.id === filters.departmentId) || null;
+  }, [filters.departmentId]);
+
+  const selectedFramework = useMemo(() => {
+    if (filters.frameworkId === 'all') return null;
+    return mockFrameworks.find(f => f.id === filters.frameworkId) || null;
+  }, [filters.frameworkId]);
+
+  return (
+    <DashboardContext.Provider value={{
+      activeTab,
+      setActiveTab,
+      filters,
+      setFilters,
+      resetFilters,
+      selectedTocNode,
+      setSelectedTocNode,
+      drillDownPath,
+      drillDownToNode,
+      popDrillDown,
+      resetDrillDown,
+      selectedIndicator,
+      setSelectedIndicator,
+      openIndicatorByCode,
+      viewMode,
+      setViewMode,
+      tocVisualization,
+      setTocVisualization,
+      isAlertDrawerOpen,
+      setIsAlertDrawerOpen,
+      frameworks: mockFrameworks,
+      projects: mockProjects,
+      departments: mockDepartments,
+      indicators: mockIndicators,
+      theoryOfChangeTree: mockTheoryOfChangeTree,
+      alerts: mockAlerts,
+      filteredIndicators,
+      selectedProject,
+      selectedDepartment,
+      selectedFramework
+    }}>
+      {children}
+    </DashboardContext.Provider>
+  );
+};
+
+export const useDashboard = () => {
+  const context = useContext(DashboardContext);
+  if (!context) {
+    throw new Error('useDashboard must be used within a DashboardProvider');
+  }
+  return context;
+};
