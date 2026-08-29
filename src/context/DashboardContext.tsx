@@ -60,7 +60,7 @@ interface DashboardContextType {
   isAlertDrawerOpen: boolean;
   setIsAlertDrawerOpen: (open: boolean) => void;
   
-  // Datasets
+  // Datasets (Dynamically computed based on selected Financial Year)
   frameworks: Framework[];
   projects: Project[];
   departments: Department[];
@@ -89,9 +89,131 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     status: 'all',
     searchQuery: ''
   });
+
+  // Dynamically resolve indicator target & actual based on selected reportingPeriod
+  const indicators = useMemo(() => {
+    const period = filters.reportingPeriod;
+    return mockIndicators.map(ind => {
+      if (ind.periodData && ind.periodData[period]) {
+        const pData = ind.periodData[period];
+        return {
+          ...ind,
+          target: pData.target,
+          actual: pData.actual
+        };
+      }
+      return ind;
+    });
+  }, [filters.reportingPeriod]);
+
+  // Dynamically resolve project progress based on selected reportingPeriod
+  const projects = useMemo(() => {
+    const period = filters.reportingPeriod;
+    return mockProjects.map(proj => {
+      if (proj.periodData && proj.periodData[period]) {
+        const pData = proj.periodData[period];
+        return {
+          ...proj,
+          physicalProgress: pData.physicalProgress,
+          financialProgress: pData.financialProgress,
+          milestoneAchievement: pData.milestoneAchievement,
+          resultsAchievement: pData.resultsAchievement,
+          overallPerformance: pData.overallPerformance,
+          status: (pData.overallPerformance >= 80 ? 'GREEN' : pData.overallPerformance >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
+        };
+      }
+      return proj;
+    });
+  }, [filters.reportingPeriod]);
+
+  // Dynamically compute Framework scores based on indicators for selected period
+  const frameworks = useMemo(() => {
+    return mockFrameworks.map(fw => {
+      const fwIndicators = indicators.filter(ind => 
+        ind.alignedFrameworks.some(af => af.frameworkId === fw.id)
+      );
+      if (fwIndicators.length === 0) return fw;
+
+      let totalScore = 0;
+      let onTarget = 0;
+      let atRisk = 0;
+      let underperforming = 0;
+      let noData = 0;
+
+      fwIndicators.forEach(ind => {
+        if (ind.actual === null) {
+          noData++;
+        } else {
+          const ratio = ind.isInverse 
+            ? (ind.target / ind.actual) * 100 
+            : (ind.actual / ind.target) * 100;
+          totalScore += ratio;
+          if (ratio >= 90) onTarget++;
+          else if (ratio >= 70) atRisk++;
+          else underperforming++;
+        }
+      });
+
+      const validCount = fwIndicators.length - noData;
+      const avgScore = validCount > 0 ? Math.round((totalScore / validCount) * 10) / 10 : fw.overallScore;
+
+      return {
+        ...fw,
+        overallScore: avgScore,
+        onTargetCount: onTarget,
+        atRiskCount: atRisk,
+        underperformingCount: underperforming,
+        noDataCount: noData,
+        status: (avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
+      };
+    });
+  }, [indicators]);
+
+  // Dynamically compute Department performance based on indicators for selected period
+  const departments = useMemo(() => {
+    return mockDepartments.map(dept => {
+      const deptIndicators = indicators.filter(ind => ind.responsibleDepartmentId === dept.id);
+      if (deptIndicators.length === 0) return dept;
+
+      let totalScore = 0;
+      let atRiskCount = 0;
+      let validCount = 0;
+
+      deptIndicators.forEach(ind => {
+        if (ind.actual !== null) {
+          const ratio = ind.isInverse 
+            ? (ind.target / ind.actual) * 100 
+            : (ind.actual / ind.target) * 100;
+          totalScore += ratio;
+          validCount++;
+          if (ratio < 90) atRiskCount++;
+        }
+      });
+
+      const avgScore = validCount > 0 ? Math.round((totalScore / validCount) * 10) / 10 : dept.overallPerformance;
+
+      return {
+        ...dept,
+        overallPerformance: avgScore,
+        atRiskIndicatorsCount: atRiskCount,
+        status: (avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
+      };
+    });
+  }, [indicators]);
+
+  // Dynamic Theory of Change root node score update
+  const theoryOfChangeTree = useMemo(() => {
+    const avgScore = Math.round(frameworks.reduce((acc, f) => acc + f.overallScore, 0) / frameworks.length * 10) / 10;
+    return {
+      ...mockTheoryOfChangeTree,
+      actual: avgScore,
+      achievement: avgScore,
+      status: (avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
+    };
+  }, [frameworks]);
   
-  const [drillDownPath, setDrillDownPath] = useState<TheoryOfChangeNode[]>([mockTheoryOfChangeTree]);
-  const [selectedTocNode, setSelectedTocNodeState] = useState<TheoryOfChangeNode | null>(mockTheoryOfChangeTree);
+  const [drillDownPath, setDrillDownPath] = useState<TheoryOfChangeNode[]>([theoryOfChangeTree]);
+  const [selectedTocNode, setSelectedTocNodeState] = useState<TheoryOfChangeNode | null>(theoryOfChangeTree);
   
   const [selectedIndicator, setSelectedIndicator] = useState<IndicatorMetadata | null>(null);
   const [viewMode, setViewMode] = useState<'executive' | 'technical'>('executive');
@@ -133,19 +255,19 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const resetDrillDown = () => {
-    setDrillDownPath([mockTheoryOfChangeTree]);
-    setSelectedTocNodeState(mockTheoryOfChangeTree);
+    setDrillDownPath([theoryOfChangeTree]);
+    setSelectedTocNodeState(theoryOfChangeTree);
   };
 
   const openIndicatorByCode = (code: string) => {
-    const ind = mockIndicators.find(i => i.code === code);
+    const ind = indicators.find(i => i.code === code);
     if (ind) {
       setSelectedIndicator(ind);
     }
   };
 
   const filteredIndicators = useMemo(() => {
-    return mockIndicators.filter(ind => {
+    return indicators.filter(ind => {
       if (filters.frameworkId !== 'all') {
         const hasFramework = ind.alignedFrameworks.some(af => af.frameworkId === filters.frameworkId);
         if (!hasFramework) return false;
@@ -176,22 +298,22 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       }
       return true;
     });
-  }, [filters]);
+  }, [indicators, filters]);
 
   const selectedProject = useMemo(() => {
     if (filters.projectId === 'all') return null;
-    return mockProjects.find(p => p.id === filters.projectId) || null;
-  }, [filters.projectId]);
+    return projects.find(p => p.id === filters.projectId) || null;
+  }, [projects, filters.projectId]);
 
   const selectedDepartment = useMemo(() => {
     if (filters.departmentId === 'all') return null;
-    return mockDepartments.find(d => d.id === filters.departmentId) || null;
-  }, [filters.departmentId]);
+    return departments.find(d => d.id === filters.departmentId) || null;
+  }, [departments, filters.departmentId]);
 
   const selectedFramework = useMemo(() => {
     if (filters.frameworkId === 'all') return null;
-    return mockFrameworks.find(f => f.id === filters.frameworkId) || null;
-  }, [filters.frameworkId]);
+    return frameworks.find(f => f.id === filters.frameworkId) || null;
+  }, [frameworks, filters.frameworkId]);
 
   return (
     <DashboardContext.Provider value={{
@@ -215,11 +337,11 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       setTocVisualization,
       isAlertDrawerOpen,
       setIsAlertDrawerOpen,
-      frameworks: mockFrameworks,
-      projects: mockProjects,
-      departments: mockDepartments,
-      indicators: mockIndicators,
-      theoryOfChangeTree: mockTheoryOfChangeTree,
+      frameworks,
+      projects,
+      departments,
+      indicators,
+      theoryOfChangeTree,
       alerts: mockAlerts,
       filteredIndicators,
       selectedProject,

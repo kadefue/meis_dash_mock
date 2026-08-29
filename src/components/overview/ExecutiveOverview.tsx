@@ -35,12 +35,13 @@ export const ExecutiveOverview: React.FC = () => {
     departments, 
     indicators, 
     alerts,
+    filters,
     setActiveTab, 
     setFilters,
     openIndicatorByCode
   } = useDashboard();
 
-  // Calculate dynamic aggregated statistics
+  // Calculate dynamic aggregated statistics for active reporting period
   const totalIndicators = indicators.length;
   const onTargetCount = indicators.filter(i => {
     if (!i.actual) return false;
@@ -83,15 +84,33 @@ export const ExecutiveOverview: React.FC = () => {
     { name: 'No Updated Data', value: noDataCount, color: '#94a3b8' },
   ];
 
-  // Line chart trend data (2022 - 2027)
-  const lineTrendData = [
-    { year: '2022', planned: 50, actual: 50 },
-    { year: '2023', planned: 58, actual: 59 },
-    { year: '2024', planned: 66, actual: 67 },
-    { year: '2025', planned: 73, actual: 72 },
-    { year: '2026', planned: 80, actual: 78.4 },
-    { year: '2027', planned: 86, actual: null },
-  ];
+  // Dynamic Line chart trend data across all seeded Financial Years (2024/25 - 2027/28)
+  const periodsList = ['2024/25', '2025/26', '2026/27', '2027/28'];
+  const lineTrendData = periodsList.map(p => {
+    let periodTotalScore = 0;
+    let periodCount = 0;
+    indicators.forEach(ind => {
+      if (ind.periodData && ind.periodData[p] && ind.periodData[p].actual !== null) {
+        const target = ind.periodData[p].target;
+        const actual = ind.periodData[p].actual!;
+        const ratio = ind.isInverse ? (target / actual) * 100 : (actual / target) * 100;
+        periodTotalScore += ratio;
+        periodCount++;
+      }
+    });
+    const avg = periodCount > 0 ? Math.round((periodTotalScore / periodCount) * 10) / 10 : 80;
+    const plannedMap: Record<string, number> = {
+      '2024/25': 75.0,
+      '2025/26': 80.0,
+      '2026/27': 85.0,
+      '2027/28': 90.0
+    };
+    return {
+      year: p,
+      planned: plannedMap[p],
+      actual: avg
+    };
+  });
 
   // Top departments sorted
   const sortedDepartments = [...departments].sort((a, b) => b.overallPerformance - a.overallPerformance);
@@ -115,13 +134,13 @@ export const ExecutiveOverview: React.FC = () => {
         <div className="space-y-1.5 max-w-4xl">
           <div className="flex items-center space-x-2 text-emerald-400 font-semibold text-xs uppercase tracking-wider">
             <Sparkles className="w-4 h-4" />
-            <span>Executive Performance Insight • Q3 2026/27</span>
+            <span>Executive Performance Insight • FY {filters.reportingPeriod}</span>
           </div>
           <p className="text-sm md:text-base text-slate-200 font-medium leading-relaxed">
-            <strong>MoEST is currently performing at {overallAvgScore}% across all monitored national frameworks.</strong>{' '}
-            <span className="text-emerald-400 font-semibold">{onTargetPct}% of indicators are on or above target</span>, while{' '}
+            <strong>MoEST is performing at {overallAvgScore}% across national frameworks in FY {filters.reportingPeriod}.</strong>{' '}
+            <span className="text-emerald-400 font-semibold">{onTargetPct}% of indicators are on/above target</span>,{' '}
             <span className="text-amber-400 font-semibold">{atRiskPct}% are at risk</span> and{' '}
-            <span className="text-red-400 font-semibold">{underperformingPct}% are underperforming</span>. Urgent management attention is required in Teacher Professional Development rollout and Higher Education project infrastructure.
+            <span className="text-red-400 font-semibold">{underperformingPct}% are underperforming</span>.
           </p>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
@@ -146,7 +165,7 @@ export const ExecutiveOverview: React.FC = () => {
           </div>
           <div className="mt-3 flex items-center justify-between">
             <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
-              On Track
+              FY {filters.reportingPeriod}
             </span>
             <TrendingUp className="w-4 h-4 text-emerald-600" />
           </div>
@@ -208,11 +227,13 @@ export const ExecutiveOverview: React.FC = () => {
         <div className="dashboard-card p-4 flex flex-col justify-between border-l-4 border-l-blue-500">
           <div>
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Projects</p>
-            <p className="text-2xl font-black text-slate-900 mt-1">2 / 3</p>
+            <p className="text-2xl font-black text-slate-900 mt-1">
+              {projects.filter(p => p.status === 'GREEN').length} / {projects.length}
+            </p>
             <p className="text-[11px] text-slate-500 mt-0.5">On Track</p>
           </div>
           <div className="mt-2 flex items-center justify-between text-blue-600">
-            <span className="text-[10px] font-semibold">SEQUIP & EP4R</span>
+            <span className="text-[10px] font-semibold">Major Projects</span>
             <FolderKanban className="w-4 h-4" />
           </div>
         </div>
@@ -221,7 +242,9 @@ export const ExecutiveOverview: React.FC = () => {
         <div className="dashboard-card p-4 flex flex-col justify-between border-l-4 border-l-indigo-500">
           <div>
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Departments</p>
-            <p className="text-2xl font-black text-slate-900 mt-1">7 / 10</p>
+            <p className="text-2xl font-black text-slate-900 mt-1">
+              {departments.filter(d => d.status === 'GREEN').length} / {departments.length}
+            </p>
             <p className="text-[11px] text-slate-500 mt-0.5">On Target</p>
           </div>
           <div className="mt-2 flex items-center justify-between text-indigo-600">
@@ -239,7 +262,7 @@ export const ExecutiveOverview: React.FC = () => {
         <div className="dashboard-card p-5 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-base font-bold text-slate-900">Performance by National Framework</h2>
+              <h2 className="text-base font-bold text-slate-900">Performance by National Framework (FY {filters.reportingPeriod})</h2>
               <p className="text-xs text-slate-500">Comparative achievement percentage across official MoEST frameworks</p>
             </div>
             <button 
@@ -291,7 +314,7 @@ export const ExecutiveOverview: React.FC = () => {
         <div className="dashboard-card p-5">
           <div className="mb-2">
             <h2 className="text-base font-bold text-slate-900">Indicator Status Breakdown</h2>
-            <p className="text-xs text-slate-500">Universal status distribution across all 33 indicators</p>
+            <p className="text-xs text-slate-500">Status distribution for FY {filters.reportingPeriod}</p>
           </div>
           <div className="h-56 relative flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
@@ -339,15 +362,15 @@ export const ExecutiveOverview: React.FC = () => {
       {/* Row 2: Performance Trend Line Chart & Project Comparison */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
-        {/* Performance Trend over time */}
+        {/* Dynamic Multi-Year Performance Trend Line Chart */}
         <div className="dashboard-card p-5">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-base font-bold text-slate-900">National Sector Performance Trend</h2>
-              <p className="text-xs text-slate-500">Planned vs Actual overall sector progress (2022–2027 Horizon)</p>
+              <h2 className="text-base font-bold text-slate-900">National Sector Performance Trajectory</h2>
+              <p className="text-xs text-slate-500">Seeded overall performance across Financial Years (2024/25–2027/28)</p>
             </div>
             <span className="px-2 py-1 rounded bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
-              ESDP Horizon
+              Active: FY {filters.reportingPeriod}
             </span>
           </div>
           <div className="h-60">
@@ -358,8 +381,8 @@ export const ExecutiveOverview: React.FC = () => {
                 <YAxis domain={[40, 100]} tick={{ fontSize: 11, fill: '#64748b' }} unit="%" />
                 <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', color: '#fff', fontSize: '12px' }} />
                 <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Line type="monotone" dataKey="planned" name="Planned Trajectory" stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} dot={{ r: 4 }} />
-                <Line type="monotone" dataKey="actual" name="Actual Performance" stroke="#10b981" strokeWidth={3} dot={{ r: 5, fill: '#10b981' }} />
+                <Line type="monotone" dataKey="planned" name="Planned Target" stroke="#94a3b8" strokeDasharray="5 5" strokeWidth={2} dot={{ r: 4 }} />
+                <Line type="monotone" dataKey="actual" name="Actual Performance" stroke="#10b981" strokeWidth={3} dot={{ r: 6, fill: '#10b981' }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -369,7 +392,7 @@ export const ExecutiveOverview: React.FC = () => {
         <div className="dashboard-card p-5">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-base font-bold text-slate-900">Project Performance Comparison</h2>
+              <h2 className="text-base font-bold text-slate-900">Project Performance (FY {filters.reportingPeriod})</h2>
               <p className="text-xs text-slate-500">SEQUIP ($535M), HEET ($425M) & EP4R ($290M) metrics</p>
             </div>
             <button 
@@ -408,7 +431,7 @@ export const ExecutiveOverview: React.FC = () => {
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <h3 className="text-sm font-bold text-slate-900">Top Performing Departments</h3>
             </div>
-            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">High Achievement</span>
+            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">FY {filters.reportingPeriod}</span>
           </div>
           <div className="space-y-3">
             {topDepartments.map((dept) => (
@@ -422,7 +445,7 @@ export const ExecutiveOverview: React.FC = () => {
               >
                 <div>
                   <p className="text-xs font-bold text-slate-800">{dept.code} - {dept.name}</p>
-                  <p className="text-[11px] text-slate-500">{dept.indicatorsCount} Indicators • Budget Utilized: {dept.budgetUtilizationRate}%</p>
+                  <p className="text-[11px] text-slate-500">{dept.indicatorsCount} Indicators • Utilization: {dept.budgetUtilizationRate}%</p>
                 </div>
                 <div className="text-right">
                   <span className="text-sm font-black text-emerald-600">{dept.overallPerformance}%</span>
@@ -471,7 +494,7 @@ export const ExecutiveOverview: React.FC = () => {
           </div>
         </div>
 
-        {/* Urgent Management Alerts Panel */}
+        {/* Priority Management Alerts Panel */}
         <div className="dashboard-card p-5 border-l-4 border-l-red-500">
           <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
             <div className="flex items-center space-x-2">

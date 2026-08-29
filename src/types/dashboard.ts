@@ -11,6 +11,11 @@ export type TocNodeType =
   | 'ACTIVITY' 
   | 'INDICATOR';
 
+export interface IndicatorPeriodValue {
+  target: number;
+  actual: number | null;
+}
+
 export interface IndicatorMetadata {
   code: string;
   name: string;
@@ -30,6 +35,7 @@ export interface IndicatorMetadata {
   verificationStatus: 'Verified' | 'Pending Verification' | 'Audited';
   lastUpdated: string;
   relatedProjectIds: string[];
+  periodData?: Record<string, IndicatorPeriodValue>; // Seeded values by Financial Year ('2024/25', '2025/26', '2026/27', '2027/28')
   alignedFrameworks: {
     frameworkId: FrameworkId;
     frameworkName: string;
@@ -102,6 +108,14 @@ export interface ProjectComponent {
   subcomponentsCount: number;
 }
 
+export interface ProjectPeriodValue {
+  physicalProgress: number;
+  financialProgress: number;
+  milestoneAchievement: number;
+  resultsAchievement: number;
+  overallPerformance: number;
+}
+
 export interface Project {
   id: string;
   code: string;
@@ -125,6 +139,7 @@ export interface Project {
   leadDepartmentName: string;
   startDate: string;
   endDate: string;
+  periodData?: Record<string, ProjectPeriodValue>;
   components: ProjectComponent[];
 }
 

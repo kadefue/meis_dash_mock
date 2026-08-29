@@ -106,6 +106,12 @@ export const mockProjects: Project[] = [
     leadDepartmentName: 'Directorate of Secondary Education',
     startDate: '2020-06-01',
     endDate: '2026-12-31',
+    periodData: {
+      '2024/25': { physicalProgress: 68.5, financialProgress: 58.2, milestoneAchievement: 74.0, resultsAchievement: 71.0, overallPerformance: 67.9 },
+      '2025/26': { physicalProgress: 76.0, financialProgress: 66.4, milestoneAchievement: 82.0, resultsAchievement: 78.5, overallPerformance: 75.7 },
+      '2026/27': { physicalProgress: 82.0, financialProgress: 72.6, milestoneAchievement: 88.0, resultsAchievement: 84.5, overallPerformance: 85.2 },
+      '2027/28': { physicalProgress: 92.0, financialProgress: 86.0, milestoneAchievement: 95.0, resultsAchievement: 91.0, overallPerformance: 91.0 }
+    },
     components: [
       {
         id: 'sequip-c1',
@@ -159,6 +165,12 @@ export const mockProjects: Project[] = [
     leadDepartmentName: 'Directorate of Higher Education',
     startDate: '2021-05-15',
     endDate: '2026-07-31',
+    periodData: {
+      '2024/25': { physicalProgress: 48.0, financialProgress: 42.0, milestoneAchievement: 55.0, resultsAchievement: 58.0, overallPerformance: 50.8 },
+      '2025/26': { physicalProgress: 59.0, financialProgress: 49.5, milestoneAchievement: 64.0, resultsAchievement: 68.0, overallPerformance: 60.1 },
+      '2026/27': { physicalProgress: 68.4, financialProgress: 56.4, milestoneAchievement: 72.0, resultsAchievement: 76.2, overallPerformance: 74.8 },
+      '2027/28': { physicalProgress: 85.0, financialProgress: 78.0, milestoneAchievement: 88.0, resultsAchievement: 87.0, overallPerformance: 84.5 }
+    },
     components: [
       {
         id: 'heet-c1',
@@ -212,6 +224,12 @@ export const mockProjects: Project[] = [
     leadDepartmentName: 'Directorate of Basic Education',
     startDate: '2019-01-01',
     endDate: '2025-12-31',
+    periodData: {
+      '2024/25': { physicalProgress: 76.0, financialProgress: 71.0, milestoneAchievement: 82.0, resultsAchievement: 79.0, overallPerformance: 77.0 },
+      '2025/26': { physicalProgress: 84.0, financialProgress: 76.5, milestoneAchievement: 87.0, resultsAchievement: 83.5, overallPerformance: 82.8 },
+      '2026/27': { physicalProgress: 89.2, financialProgress: 80.0, milestoneAchievement: 91.5, resultsAchievement: 87.8, overallPerformance: 88.6 },
+      '2027/28': { physicalProgress: 95.0, financialProgress: 91.0, milestoneAchievement: 96.0, resultsAchievement: 94.0, overallPerformance: 94.0 }
+    },
     components: [
       {
         id: 'ep4r-c1',
@@ -496,6 +514,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-06-30',
     relatedProjectIds: ['sequip', 'ep4r'],
+    periodData: {
+      '2024/25': { target: 51.0, actual: 52.1 },
+      '2025/26': { target: 56.0, actual: 55.8 },
+      '2026/27': { target: 61.0, actual: 58.4 },
+      '2027/28': { target: 65.0, actual: 64.2 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Objective 2: Expand Equitable Secondary Access', target: '65.0%', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 1: Increase Secondary Intake', target: '65.0%', contributionType: 'Direct' },
@@ -547,6 +571,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-06-30',
     relatedProjectIds: ['sequip'],
+    periodData: {
+      '2024/25': { target: 70.0, actual: 71.8 },
+      '2025/26': { target: 75.0, actual: 74.0 },
+      '2026/27': { target: 78.0, actual: 76.5 },
+      '2027/28': { target: 80.0, actual: 79.5 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Objective 2: Gender Parity & Retention in Secondary', target: '80.0%', contributionType: 'Direct' },
       { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.5: Gender Equality in Education', target: '85.0%', contributionType: 'Direct' },
@@ -580,6 +610,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Pending Verification',
     lastUpdated: '2026-07-15',
     relatedProjectIds: ['sequip', 'ep4r'],
+    periodData: {
+      '2024/25': { target: 60.0, actual: 58.0 },
+      '2025/26': { target: 72.0, actual: 60.1 },
+      '2026/27': { target: 80.0, actual: 61.2 },
+      '2027/28': { target: 85.0, actual: 78.0 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Learning Quality & Teacher Development', target: '85.0%', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 3: Upgrading Teacher Competency', target: '85.0%', contributionType: 'Direct' },
@@ -621,6 +657,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-06-15',
     relatedProjectIds: ['ep4r', 'sequip'],
+    periodData: {
+      '2024/25': { target: 42.0, actual: 41.5 },
+      '2025/26': { target: 39.0, actual: 39.8 },
+      '2026/27': { target: 37.0, actual: 38.2 },
+      '2027/28': { target: 35.0, actual: 35.5 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Quality Teaching Workforce', target: '≤ 35.0', contributionType: 'Direct' },
       { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.c: Qualified Teachers', target: '≤ 35.0', contributionType: 'Direct' }
@@ -653,6 +695,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-07-01',
     relatedProjectIds: ['heet'],
+    periodData: {
+      '2024/25': { target: 112000, actual: 108000 },
+      '2025/26': { target: 128000, actual: 118000 },
+      '2026/27': { target: 140000, actual: 122400 },
+      '2027/28': { target: 150000, actual: 145000 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 3: Higher Education Transformation', target: '150,000', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 4: Strengthen STEM & Industrial Skills', target: '150,000', contributionType: 'Direct' },
@@ -695,6 +743,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-06-30',
     relatedProjectIds: ['heet'],
+    periodData: {
+      '2024/25': { target: 41.0, actual: 40.2 },
+      '2025/26': { target: 47.0, actual: 43.1 },
+      '2026/27': { target: 51.0, actual: 44.8 },
+      '2027/28': { target: 55.0, actual: 52.0 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 3: Higher Education Quality & Staffing', target: '55.0%', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 4: Academic Excellence', target: '55.0%', contributionType: 'Direct' }
@@ -727,6 +781,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-07-05',
     relatedProjectIds: ['ep4r'],
+    periodData: {
+      '2024/25': { target: 170000, actual: 175000 },
+      '2025/26': { target: 200000, actual: 192000 },
+      '2026/27': { target: 225000, actual: 218500 },
+      '2027/28': { target: 250000, actual: 246000 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 2: Vocational & Skills Transformation', target: '250,000', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 2: Expand TVET Access', target: '250,000', contributionType: 'Direct' },
@@ -761,6 +821,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-05-20',
     relatedProjectIds: ['heet'],
+    periodData: {
+      '2024/25': { target: 65.0, actual: 66.8 },
+      '2025/26': { target: 71.0, actual: 69.5 },
+      '2026/27': { target: 75.0, actual: 71.4 },
+      '2027/28': { target: 78.0, actual: 76.8 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 2: Employability & Skills Alignment', target: '78.0%', contributionType: 'Direct' },
       { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.4: Relevant Skills for Employment', target: '80.0%', contributionType: 'Direct' }
@@ -793,6 +859,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-07-20',
     relatedProjectIds: ['sequip', 'ep4r'],
+    periodData: {
+      '2024/25': { target: 65.0, actual: 65.4 },
+      '2025/26': { target: 74.0, actual: 69.8 },
+      '2026/27': { target: 80.0, actual: 72.0 },
+      '2027/28': { target: 85.0, actual: 82.5 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 4: School Quality Assurance & Governance', target: '85.0%', contributionType: 'Direct' },
       { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.a: Safe & Effective Learning Environments', target: '90.0%', contributionType: 'Direct' },
@@ -834,6 +906,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-06-10',
     relatedProjectIds: ['heet'],
+    periodData: {
+      '2024/25': { target: 70, actual: 75 },
+      '2025/26': { target: 90, actual: 84 },
+      '2026/27': { target: 105, actual: 92 },
+      '2027/28': { target: 120, actual: 115 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 3: Research & Commercial Innovation', target: '120 Grants', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 4: Science & Technology Advancement', target: '120 Grants', contributionType: 'Direct' },
@@ -867,6 +945,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Audited',
     lastUpdated: '2026-07-30',
     relatedProjectIds: ['ep4r'],
+    periodData: {
+      '2024/25': { target: 92.0, actual: 92.4 },
+      '2025/26': { target: 95.0, actual: 94.8 },
+      '2026/27': { target: 97.0, actual: 95.8 },
+      '2027/28': { target: 98.0, actual: 97.5 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Universal Equitable Access', target: '98.0%', contributionType: 'Direct' },
       { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 1: Fee-Free Basic Education Execution', target: '100.0%', contributionType: 'Direct' }
@@ -899,6 +983,12 @@ export const mockIndicators: IndicatorMetadata[] = [
     verificationStatus: 'Verified',
     lastUpdated: '2026-07-10',
     relatedProjectIds: ['sequip', 'heet'],
+    periodData: {
+      '2024/25': { target: 34.0, actual: 36.2 },
+      '2025/26': { target: 45.0, actual: 44.0 },
+      '2026/27': { target: 53.0, actual: 48.5 },
+      '2027/28': { target: 60.0, actual: 58.0 }
+    },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 5: Digital Transformation & ICT Infrastructure', target: '60.0%', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 6: ICT Infrastructure Expansion', target: '60.0%', contributionType: 'Direct' },
@@ -1223,4 +1313,3 @@ export const mockAlerts: ManagementAlert[] = [
     responsibleEntity: 'Directorate of Basic Education (DBE)'
   }
 ];
-
