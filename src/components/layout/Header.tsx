@@ -6,9 +6,7 @@ import {
   Calendar, 
   ChevronRight, 
   ArrowLeft,
-  RotateCcw,
-  Sparkles,
-  Layers
+  RotateCcw
 } from 'lucide-react';
 import { useDashboard } from '../../context/DashboardContext';
 import type { MainTab } from '../../context/DashboardContext';
@@ -22,8 +20,6 @@ export const Header: React.FC = () => {
     drillDownPath,
     popDrillDown,
     resetDrillDown,
-    viewMode,
-    setViewMode,
     frameworks,
     departments,
     projects,
@@ -147,32 +143,6 @@ export const Header: React.FC = () => {
         {/* Right: Controls, View Mode Toggle & User Profile */}
         <div className="flex items-center space-x-3">
           
-          {/* Executive vs Technical View Mode Switcher */}
-          <div className="bg-slate-100 p-0.5 rounded-lg border border-slate-200 flex items-center text-xs font-semibold">
-            <button
-              onClick={() => setViewMode('executive')}
-              className={`px-2.5 py-1 rounded-md flex items-center space-x-1.5 transition-all ${
-                viewMode === 'executive'
-                  ? 'bg-white text-blue-700 shadow-xs font-bold'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <span>Executive</span>
-            </button>
-            <button
-              onClick={() => setViewMode('technical')}
-              className={`px-2.5 py-1 rounded-md flex items-center space-x-1.5 transition-all ${
-                viewMode === 'technical'
-                  ? 'bg-slate-900 text-emerald-400 shadow-xs font-bold'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <Layers className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Technical M&E</span>
-            </button>
-          </div>
-
           {/* Notifications Button */}
           <button
             onClick={() => setIsAlertDrawerOpen(true)}
