@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 import type { 
   PerformanceStatus, 
   GlobalFilters, 
@@ -14,7 +14,7 @@ import {
   mockProjects, 
   mockDepartments, 
   mockIndicators, 
-  mockTheoryOfChangeTree,
+  mockTheoryOfChangeTrees,
   mockAlerts 
 } from '../data/mockData';
 
@@ -60,7 +60,7 @@ interface DashboardContextType {
   isAlertDrawerOpen: boolean;
   setIsAlertDrawerOpen: (open: boolean) => void;
   
-  // Datasets (Dynamically computed based on selected Financial Year)
+  // Datasets (Dynamically computed based on selected Financial Year & Framework)
   frameworks: Framework[];
   projects: Project[];
   departments: Department[];
@@ -201,22 +201,28 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     });
   }, [indicators]);
 
-  // Dynamic Theory of Change root node score update
+  // Dynamic Theory of Change root node resolving based on selected Framework
   const theoryOfChangeTree = useMemo(() => {
-    const validFws = frameworks.filter(f => f.status !== 'NODATA');
-    const avgScore = validFws.length > 0 
-      ? Math.round(validFws.reduce((acc, f) => acc + f.overallScore, 0) / validFws.length * 10) / 10 
-      : 0;
+    const fwId = filters.frameworkId === 'all' ? 'esdp' : filters.frameworkId;
+    const baseTree = mockTheoryOfChangeTrees[fwId] || mockTheoryOfChangeTrees.esdp;
+    const fwObj = frameworks.find(f => f.id === fwId);
+    const score = fwObj ? fwObj.overallScore : (baseTree.achievement ?? 0);
     return {
-      ...mockTheoryOfChangeTree,
-      actual: avgScore > 0 ? avgScore : null,
-      achievement: avgScore > 0 ? avgScore : 0,
-      status: (validFws.length === 0 ? 'NODATA' : avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
+      ...baseTree,
+      achievement: score,
+      actual: score > 0 ? score : null,
+      status: (fwObj?.status || 'NODATA') as PerformanceStatus
     };
-  }, [frameworks]);
+  }, [filters.frameworkId, frameworks]);
   
   const [drillDownPath, setDrillDownPath] = useState<TheoryOfChangeNode[]>([theoryOfChangeTree]);
   const [selectedTocNode, setSelectedTocNodeState] = useState<TheoryOfChangeNode | null>(theoryOfChangeTree);
+
+  // Sync drill-down path when theoryOfChangeTree changes
+  useEffect(() => {
+    setDrillDownPath([theoryOfChangeTree]);
+    setSelectedTocNodeState(theoryOfChangeTree);
+  }, [theoryOfChangeTree]);
   
   const [selectedIndicator, setSelectedIndicator] = useState<IndicatorMetadata | null>(null);
   const [viewMode, setViewMode] = useState<'executive' | 'technical'>('executive');

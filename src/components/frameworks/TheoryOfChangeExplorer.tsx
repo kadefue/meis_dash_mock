@@ -23,11 +23,17 @@ export const TheoryOfChangeExplorer: React.FC = () => {
     tocVisualization,
     setTocVisualization,
     openIndicatorByCode,
-    indicators
+    filteredIndicators,
+    filters,
+    frameworks,
+    theoryOfChangeTree
   } = useDashboard();
 
   const [expandedNodeIds, setExpandedNodeIds] = useState<Record<string, boolean>>({
     'toc-esdp-root': true,
+    'toc-sp-root': true,
+    'toc-sdg-root': true,
+    'toc-ccm-root': true,
     'toc-sp1': true,
     'toc-sp1-out1': true
   });
@@ -38,6 +44,7 @@ export const TheoryOfChangeExplorer: React.FC = () => {
   };
 
   const currentNode = selectedTocNode || drillDownPath[drillDownPath.length - 1];
+  const activeFwObj = frameworks.find(f => f.id === filters.frameworkId) || frameworks[0];
 
   // Helper badge color for status
   const getStatusBadge = (status: string) => {
@@ -129,7 +136,7 @@ export const TheoryOfChangeExplorer: React.FC = () => {
               <span className={`text-base font-black ${
                 node.status === 'GREEN' ? 'text-emerald-600' : node.status === 'YELLOW' ? 'text-amber-600' : 'text-red-600'
               }`}>
-                {node.achievement !== null ? `${node.achievement}%` : 'N/A'}
+                {node.achievement !== null && node.achievement > 0 ? `${node.achievement}%` : 'N/A'}
               </span>
               <p className="text-[10px] text-slate-400 font-medium">Achievement</p>
               <button
@@ -158,6 +165,9 @@ export const TheoryOfChangeExplorer: React.FC = () => {
     );
   };
 
+  const firstPriority = theoryOfChangeTree.children?.[0];
+  const firstOutcome = firstPriority?.children?.[0];
+
   return (
     <div className="space-y-6">
 
@@ -166,13 +176,13 @@ export const TheoryOfChangeExplorer: React.FC = () => {
         <div>
           <div className="flex items-center space-x-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
             <GitFork className="w-4 h-4" />
-            <span>Theory of Change Interactive Engine</span>
+            <span>Theory of Change Engine • {activeFwObj.name} ({activeFwObj.code})</span>
           </div>
           <h2 className="text-lg font-black text-white mt-0.5">
-            Education Sector Results Architecture
+            {activeFwObj.fullName} Results Architecture
           </h2>
           <p className="text-xs text-slate-300">
-            Click any node below to dynamically open the next level: <code className="bg-slate-800 px-1 py-0.5 rounded text-blue-300 font-mono">Priority → Outcome → Output → Activity → Indicator</code>
+            Dynamically filtered for <strong className="text-blue-300">{activeFwObj.name}</strong> • FY <strong className="text-emerald-300">{filters.reportingPeriod}</strong>
           </p>
         </div>
 
@@ -203,7 +213,7 @@ export const TheoryOfChangeExplorer: React.FC = () => {
             }`}
           >
             <Table className="w-3.5 h-3.5" />
-            <span>Indicator Table</span>
+            <span>Indicator Table ({filteredIndicators.length})</span>
           </button>
         </div>
       </div>
@@ -211,7 +221,7 @@ export const TheoryOfChangeExplorer: React.FC = () => {
       {/* Active Drill-Down Path Breadcrumbs Bar */}
       <div className="bg-white border border-slate-200 rounded-xl p-3.5 flex items-center justify-between shadow-xs flex-wrap gap-2">
         <div className="flex items-center space-x-2 overflow-x-auto text-xs py-1">
-          <span className="text-slate-400 font-semibold uppercase text-[10px] mr-1">Drill-Down Path:</span>
+          <span className="text-slate-400 font-semibold uppercase text-[10px] mr-1">Active Path:</span>
           {drillDownPath.map((node, idx) => (
             <React.Fragment key={node.id}>
               {idx > 0 && <ChevronRight className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />}
@@ -224,7 +234,7 @@ export const TheoryOfChangeExplorer: React.FC = () => {
                 }`}
               >
                 <span>{node.code}</span>
-                <span className="text-[10px] opacity-80">({node.achievement !== null ? `${node.achievement}%` : 'N/A'})</span>
+                <span className="text-[10px] opacity-80">({node.achievement !== null && node.achievement > 0 ? `${node.achievement}%` : 'N/A'})</span>
               </button>
             </React.Fragment>
           ))}
@@ -267,7 +277,7 @@ export const TheoryOfChangeExplorer: React.FC = () => {
               <p className={`text-2xl font-black ${
                 currentNode.status === 'GREEN' ? 'text-emerald-600' : currentNode.status === 'YELLOW' ? 'text-amber-600' : 'text-red-600'
               }`}>
-                {currentNode.achievement !== null ? `${currentNode.achievement}%` : 'N/A'}
+                {currentNode.achievement !== null && currentNode.achievement > 0 ? `${currentNode.achievement}%` : 'N/A'}
               </p>
               <p className="text-xs text-slate-500 font-medium">{currentNode.indicatorCount} Contributing Indicators</p>
             </div>
@@ -275,7 +285,7 @@ export const TheoryOfChangeExplorer: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-3 text-xs text-slate-600">
             <div>
-              <span className="font-semibold text-slate-500">Responsible Department:</span>
+              <span className="font-semibold text-slate-500">Responsible Division:</span>
               <p className="font-bold text-slate-900">{currentNode.departmentName}</p>
             </div>
             <div>
@@ -283,8 +293,8 @@ export const TheoryOfChangeExplorer: React.FC = () => {
               <p className="font-bold text-purple-700">{currentNode.projectIds.join(', ').toUpperCase() || 'Sector-Wide'}</p>
             </div>
             <div>
-              <span className="font-semibold text-slate-500">Framework Alignment:</span>
-              <p className="font-bold text-blue-700">ESDP 2025/26–2029/30</p>
+              <span className="font-semibold text-slate-500">Active Framework Alignment:</span>
+              <p className="font-bold text-blue-700">{activeFwObj.fullName}</p>
             </div>
           </div>
         </div>
@@ -293,16 +303,23 @@ export const TheoryOfChangeExplorer: React.FC = () => {
       {/* Main View Renderer based on selected TOC visualization */}
       {tocVisualization === 'tree' && (
         <div className="dashboard-card p-6">
-          <h3 className="text-sm font-bold text-slate-900 mb-2">Hierarchical Tree Structure</h3>
-          <p className="text-xs text-slate-500 mb-4">Click cards to expand lower levels or inspect contributing indicators.</p>
-          <RenderTreeNode node={drillDownPath[0]} depth={0} />
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-sm font-bold text-slate-900">{activeFwObj.name} Hierarchical Tree Structure</h3>
+              <p className="text-xs text-slate-500">Click cards to expand lower levels or inspect contributing indicators.</p>
+            </div>
+            <span className="px-2.5 py-1 bg-slate-100 rounded text-xs font-bold text-slate-700">
+              {activeFwObj.code}
+            </span>
+          </div>
+          <RenderTreeNode node={theoryOfChangeTree} depth={0} />
         </div>
       )}
 
       {tocVisualization === 'flow' && (
         <div className="dashboard-card p-6 overflow-x-auto">
-          <h3 className="text-sm font-bold text-slate-900 mb-2">Results Pipeline Flow (Inputs → Impact)</h3>
-          <p className="text-xs text-slate-500 mb-4">Horizontal Theory of Change progression</p>
+          <h3 className="text-sm font-bold text-slate-900 mb-2">Results Pipeline Flow ({activeFwObj.code})</h3>
+          <p className="text-xs text-slate-500 mb-4">Horizontal Theory of Change progression for {activeFwObj.name}</p>
           
           <div className="flex items-stretch space-x-4 min-w-[900px] py-4">
             
@@ -310,11 +327,11 @@ export const TheoryOfChangeExplorer: React.FC = () => {
             <div className="w-64 p-4 rounded-xl bg-blue-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
               <div>
                 <span className="px-2 py-0.5 rounded text-[10px] font-black bg-blue-700 text-blue-100">STEP 1 • GOAL</span>
-                <h4 className="text-sm font-bold mt-2">National Education Goal</h4>
-                <p className="text-xs text-slate-200 mt-1">ESDP 2025-2030</p>
+                <h4 className="text-sm font-bold mt-2 truncate">{activeFwObj.name} Goal</h4>
+                <p className="text-xs text-slate-200 mt-1">{activeFwObj.code}</p>
               </div>
               <div className="mt-4 pt-3 border-t border-blue-800 text-xs">
-                <span className="text-emerald-400 font-bold">82.4% Achievement</span>
+                <span className="text-emerald-400 font-bold">{activeFwObj.overallScore}% Overall Score</span>
               </div>
             </div>
 
@@ -324,11 +341,11 @@ export const TheoryOfChangeExplorer: React.FC = () => {
             <div className="w-64 p-4 rounded-xl bg-indigo-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
               <div>
                 <span className="px-2 py-0.5 rounded text-[10px] font-black bg-indigo-700 text-indigo-100">STEP 2 • PRIORITY</span>
-                <h4 className="text-sm font-bold mt-2">Priority 1: General Education</h4>
-                <p className="text-xs text-slate-200 mt-1">Secondary & Girls Retention</p>
+                <h4 className="text-sm font-bold mt-2 truncate">{firstPriority ? firstPriority.name : 'Strategic Priority'}</h4>
+                <p className="text-xs text-slate-200 mt-1">{firstPriority ? firstPriority.code : 'Priority 1'}</p>
               </div>
               <div className="mt-4 pt-3 border-t border-indigo-800 text-xs">
-                <span className="text-emerald-400 font-bold">83.5% Achievement</span>
+                <span className="text-emerald-400 font-bold">{firstPriority?.achievement ? `${firstPriority.achievement}%` : '85.0%'} Achievement</span>
               </div>
             </div>
 
@@ -338,25 +355,25 @@ export const TheoryOfChangeExplorer: React.FC = () => {
             <div className="w-64 p-4 rounded-xl bg-teal-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
               <div>
                 <span className="px-2 py-0.5 rounded text-[10px] font-black bg-teal-700 text-teal-100">STEP 3 • OUTCOME</span>
-                <h4 className="text-sm font-bold mt-2">Learning Quality Improvement</h4>
-                <p className="text-xs text-slate-200 mt-1">Outcome 1.1</p>
+                <h4 className="text-sm font-bold mt-2 truncate">{firstOutcome ? firstOutcome.name : 'Target Outcome'}</h4>
+                <p className="text-xs text-slate-200 mt-1">{firstOutcome ? firstOutcome.code : 'Outcome 1.1'}</p>
               </div>
               <div className="mt-4 pt-3 border-t border-teal-800 text-xs">
-                <span className="text-amber-400 font-bold">76.5% Achievement</span>
+                <span className="text-amber-400 font-bold">{firstOutcome?.achievement ? `${firstOutcome.achievement}%` : '78.5%'} Achievement</span>
               </div>
             </div>
 
             <div className="flex items-center text-slate-400"><ArrowRight className="w-5 h-5" /></div>
 
-            {/* Stage 4: Output / Activity */}
+            {/* Stage 4: Output / Intervention */}
             <div className="w-64 p-4 rounded-xl bg-purple-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
               <div>
                 <span className="px-2 py-0.5 rounded text-[10px] font-black bg-purple-700 text-purple-100">STEP 4 • INTERVENTION</span>
-                <h4 className="text-sm font-bold mt-2">Teacher CPD Training Rollout</h4>
-                <p className="text-xs text-slate-200 mt-1">184 LGA Modules</p>
+                <h4 className="text-sm font-bold mt-2">Implementation Output</h4>
+                <p className="text-xs text-slate-200 mt-1">Division Execution</p>
               </div>
               <div className="mt-4 pt-3 border-t border-purple-800 text-xs">
-                <span className="text-red-400 font-bold">60.8% Achievement</span>
+                <span className="text-emerald-400 font-bold">82.0% Delivery Rate</span>
               </div>
             </div>
 
@@ -366,11 +383,13 @@ export const TheoryOfChangeExplorer: React.FC = () => {
             <div className="w-64 p-4 rounded-xl bg-slate-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
               <div>
                 <span className="px-2 py-0.5 rounded text-[10px] font-black bg-slate-700 text-slate-200">STEP 5 • INDICATOR</span>
-                <h4 className="text-sm font-bold mt-2">CPD Completion Rate</h4>
-                <p className="text-xs text-slate-300 mt-1">IND-TCH-01</p>
+                <h4 className="text-sm font-bold mt-2 truncate">{filteredIndicators[0]?.name || 'Key Metric'}</h4>
+                <p className="text-xs text-slate-300 mt-1">{filteredIndicators[0]?.code || 'IND-01'}</p>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-800 text-xs">
-                <span className="text-amber-400 font-bold">61.2% Actual (Target 85%)</span>
+                <span className="text-amber-400 font-bold">
+                  {filteredIndicators[0]?.actual !== null ? `${filteredIndicators[0]?.actual} ${filteredIndicators[0]?.unit}` : 'No Data'}
+                </span>
               </div>
             </div>
 
@@ -380,49 +399,62 @@ export const TheoryOfChangeExplorer: React.FC = () => {
 
       {tocVisualization === 'table' && (
         <div className="dashboard-card p-5 overflow-x-auto">
-          <h3 className="text-sm font-bold text-slate-900 mb-3">Linked Key Performance Indicators</h3>
-          <table className="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-                <th className="p-3">Code</th>
-                <th className="p-3">Indicator Name</th>
-                <th className="p-3">Target</th>
-                <th className="p-3">Actual</th>
-                <th className="p-3">Achievement</th>
-                <th className="p-3">Status</th>
-                <th className="p-3">Department</th>
-                <th className="p-3">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-800">
-              {indicators.map((ind) => {
-                const ratio = ind.actual !== null 
-                  ? (ind.isInverse ? (ind.target / ind.actual) * 100 : (ind.actual / ind.target) * 100)
-                  : null;
-                const achievementFormatted = ratio !== null ? `${Math.round(ratio * 10) / 10}%` : 'N/A';
-                
-                return (
-                  <tr key={ind.code} className="hover:bg-slate-50 transition-colors">
-                    <td className="p-3 font-mono font-bold text-blue-700">{ind.code}</td>
-                    <td className="p-3 font-bold text-slate-900 max-w-xs">{ind.name}</td>
-                    <td className="p-3 font-semibold">{ind.target} {ind.unit}</td>
-                    <td className="p-3 font-bold">{ind.actual !== null ? `${ind.actual} ${ind.unit}` : 'No Data'}</td>
-                    <td className="p-3 font-black text-slate-900">{achievementFormatted}</td>
-                    <td className="p-3">{getStatusBadge(ratio === null ? 'NODATA' : ratio >= 90 ? 'GREEN' : ratio >= 70 ? 'YELLOW' : 'RED')}</td>
-                    <td className="p-3 font-medium text-slate-600">{ind.responsibleDepartmentName}</td>
-                    <td className="p-3">
-                      <button
-                        onClick={() => openIndicatorByCode(ind.code)}
-                        className="px-2.5 py-1 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded text-xs font-bold transition-colors"
-                      >
-                        Inspect
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h3 className="text-sm font-bold text-slate-900">Linked Key Performance Indicators ({activeFwObj.name})</h3>
+              <p className="text-xs text-slate-500">Displaying {filteredIndicators.length} indicators aligned to {activeFwObj.fullName}</p>
+            </div>
+            <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded border border-blue-100">
+              {activeFwObj.code}
+            </span>
+          </div>
+
+          {filteredIndicators.length === 0 ? (
+            <p className="text-xs text-slate-500 italic p-4 text-center">No indicators found for this filter combination.</p>
+          ) : (
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                  <th className="p-3">Code</th>
+                  <th className="p-3">Indicator Name</th>
+                  <th className="p-3">FY {filters.reportingPeriod} Target</th>
+                  <th className="p-3">FY {filters.reportingPeriod} Actual</th>
+                  <th className="p-3">Achievement</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3">Division</th>
+                  <th className="p-3">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 text-slate-800">
+                {filteredIndicators.map((ind) => {
+                  const ratio = ind.actual !== null 
+                    ? (ind.isInverse ? (ind.target / ind.actual) * 100 : (ind.actual / ind.target) * 100)
+                    : null;
+                  const achievementFormatted = ratio !== null ? `${Math.round(ratio * 10) / 10}%` : 'N/A';
+                  
+                  return (
+                    <tr key={ind.code} className="hover:bg-slate-50 transition-colors">
+                      <td className="p-3 font-mono font-bold text-blue-700">{ind.code}</td>
+                      <td className="p-3 font-bold text-slate-900 max-w-xs">{ind.name}</td>
+                      <td className="p-3 font-semibold">{ind.target} {ind.unit}</td>
+                      <td className="p-3 font-bold">{ind.actual !== null ? `${ind.actual} ${ind.unit}` : 'No Data'}</td>
+                      <td className="p-3 font-black text-slate-900">{achievementFormatted}</td>
+                      <td className="p-3">{getStatusBadge(ratio === null ? 'NODATA' : ratio >= 90 ? 'GREEN' : ratio >= 70 ? 'YELLOW' : 'RED')}</td>
+                      <td className="p-3 font-medium text-slate-600">{ind.responsibleDepartmentName}</td>
+                      <td className="p-3">
+                        <button
+                          onClick={() => openIndicatorByCode(ind.code)}
+                          className="px-2.5 py-1 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded text-xs font-bold transition-colors"
+                        >
+                          Inspect
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       )}
 
