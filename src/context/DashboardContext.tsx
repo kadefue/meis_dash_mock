@@ -119,7 +119,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           milestoneAchievement: pData.milestoneAchievement,
           resultsAchievement: pData.resultsAchievement,
           overallPerformance: pData.overallPerformance,
-          status: (pData.overallPerformance >= 80 ? 'GREEN' : pData.overallPerformance >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
+          status: (pData.overallPerformance === 0 ? 'NODATA' : pData.overallPerformance >= 80 ? 'GREEN' : pData.overallPerformance >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
         };
       }
       return proj;
@@ -141,7 +141,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       let noData = 0;
 
       fwIndicators.forEach(ind => {
-        if (ind.actual === null) {
+        if (ind.actual === null || ind.actual === undefined) {
           noData++;
         } else {
           const ratio = ind.isInverse 
@@ -155,7 +155,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       });
 
       const validCount = fwIndicators.length - noData;
-      const avgScore = validCount > 0 ? Math.round((totalScore / validCount) * 10) / 10 : fw.overallScore;
+      const avgScore = validCount > 0 ? Math.round((totalScore / validCount) * 10) / 10 : 0;
 
       return {
         ...fw,
@@ -164,7 +164,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         atRiskCount: atRisk,
         underperformingCount: underperforming,
         noDataCount: noData,
-        status: (avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
+        status: (validCount === 0 ? 'NODATA' : avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
       };
     });
   }, [indicators]);
@@ -180,7 +180,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       let validCount = 0;
 
       deptIndicators.forEach(ind => {
-        if (ind.actual !== null) {
+        if (ind.actual !== null && ind.actual !== undefined) {
           const ratio = ind.isInverse 
             ? (ind.target / ind.actual) * 100 
             : (ind.actual / ind.target) * 100;
@@ -190,25 +190,28 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         }
       });
 
-      const avgScore = validCount > 0 ? Math.round((totalScore / validCount) * 10) / 10 : dept.overallPerformance;
+      const avgScore = validCount > 0 ? Math.round((totalScore / validCount) * 10) / 10 : 0;
 
       return {
         ...dept,
         overallPerformance: avgScore,
         atRiskIndicatorsCount: atRiskCount,
-        status: (avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
+        status: (validCount === 0 ? 'NODATA' : avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
       };
     });
   }, [indicators]);
 
   // Dynamic Theory of Change root node score update
   const theoryOfChangeTree = useMemo(() => {
-    const avgScore = Math.round(frameworks.reduce((acc, f) => acc + f.overallScore, 0) / frameworks.length * 10) / 10;
+    const validFws = frameworks.filter(f => f.status !== 'NODATA');
+    const avgScore = validFws.length > 0 
+      ? Math.round(validFws.reduce((acc, f) => acc + f.overallScore, 0) / validFws.length * 10) / 10 
+      : 0;
     return {
       ...mockTheoryOfChangeTree,
-      actual: avgScore,
-      achievement: avgScore,
-      status: (avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
+      actual: avgScore > 0 ? avgScore : null,
+      achievement: avgScore > 0 ? avgScore : 0,
+      status: (validFws.length === 0 ? 'NODATA' : avgScore >= 80 ? 'GREEN' : avgScore >= 70 ? 'YELLOW' : 'RED') as PerformanceStatus
     };
   }, [frameworks]);
   
