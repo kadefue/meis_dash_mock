@@ -79,6 +79,19 @@ export interface TheoryOfChangeNode {
   children?: TheoryOfChangeNode[];
 }
 
+export interface FrameworkSubsector {
+  id: string;
+  code: string;
+  name: string;
+  subsectorLead: string;
+  leadDepartmentId: string;
+  leadDepartmentName: string;
+  allocatedBudgetTZS: number; // Millions TZS
+  performanceScore: number; // %
+  status: PerformanceStatus;
+  indicatorCodes: string[];
+}
+
 export interface Framework {
   id: FrameworkId;
   code: string;
@@ -96,6 +109,7 @@ export interface Framework {
   trend: 'Up' | 'Stable' | 'Down';
   keyObjectivesCount: number;
   strategiesCount: number;
+  subsectors?: FrameworkSubsector[];
 }
 
 export interface ProjectComponent {

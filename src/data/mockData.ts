@@ -25,7 +25,93 @@ export const mockFrameworks: Framework[] = [
     totalIndicators: 33,
     trend: 'Up',
     keyObjectivesCount: 5,
-    strategiesCount: 18
+    strategiesCount: 18,
+    subsectors: [
+      {
+        id: 'sub-esdp-bas',
+        code: 'SUB-BAS',
+        name: 'Basic & Primary Education (Fee-Free Capitation & 3Rs)',
+        subsectorLead: 'Basic Education Wing',
+        leadDepartmentId: 'dbe',
+        leadDepartmentName: 'Division of Basic Education',
+        allocatedBudgetTZS: 62000,
+        performanceScore: 86.4,
+        status: 'GREEN',
+        indicatorCodes: ['IND-BAS-01']
+      },
+      {
+        id: 'sub-esdp-sec',
+        code: 'SUB-SEC',
+        name: 'Secondary Education Infrastructure & Retention',
+        subsectorLead: 'General Secondary Wing',
+        leadDepartmentId: 'dse',
+        leadDepartmentName: 'Division of Secondary Education',
+        allocatedBudgetTZS: 48000,
+        performanceScore: 82.1,
+        status: 'GREEN',
+        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02']
+      },
+      {
+        id: 'sub-esdp-tch',
+        code: 'SUB-TCH',
+        name: 'Teacher Education & Continuous Professional Development',
+        subsectorLead: 'Teacher Quality Wing',
+        leadDepartmentId: 'dte',
+        leadDepartmentName: 'Division of Teacher Education',
+        allocatedBudgetTZS: 21000,
+        performanceScore: 67.4,
+        status: 'RED',
+        indicatorCodes: ['IND-TCH-01', 'IND-TCH-02']
+      },
+      {
+        id: 'sub-esdp-tvet',
+        code: 'SUB-TVET',
+        name: 'Technical & Vocational Education (TVET & VETA)',
+        subsectorLead: 'TVET & VETA Wing',
+        leadDepartmentId: 'dtvet',
+        leadDepartmentName: 'Division of Technical & Vocational Education',
+        allocatedBudgetTZS: 32000,
+        performanceScore: 84.0,
+        status: 'GREEN',
+        indicatorCodes: ['IND-TVET-01', 'IND-TVET-02']
+      },
+      {
+        id: 'sub-esdp-hed',
+        code: 'SUB-HED',
+        name: 'Higher Education STEM & University Labs',
+        subsectorLead: 'Higher Education Wing',
+        leadDepartmentId: 'dhe',
+        leadDepartmentName: 'Division of Higher Education',
+        allocatedBudgetTZS: 89000,
+        performanceScore: 73.6,
+        status: 'YELLOW',
+        indicatorCodes: ['IND-HED-01', 'IND-HED-02']
+      },
+      {
+        id: 'sub-esdp-sti',
+        code: 'SUB-STI',
+        name: 'Science, Technology & Research Commercialization',
+        subsectorLead: 'Science & Research Wing',
+        leadDepartmentId: 'dsti',
+        leadDepartmentName: 'Division of Science, Technology & Innovation',
+        allocatedBudgetTZS: 18500,
+        performanceScore: 79.5,
+        status: 'YELLOW',
+        indicatorCodes: ['IND-STI-01']
+      },
+      {
+        id: 'sub-esdp-gov',
+        code: 'SUB-GOV',
+        name: 'Quality Assurance, EMIS & Digital Infrastructure',
+        subsectorLead: 'Standards & Governance Wing',
+        leadDepartmentId: 'sqa',
+        leadDepartmentName: 'Department of School Quality Assurance',
+        allocatedBudgetTZS: 31500,
+        performanceScore: 90.1,
+        status: 'GREEN',
+        indicatorCodes: ['IND-SQA-01', 'IND-ICT-01']
+      }
+    ]
   },
   {
     id: 'sp',
@@ -43,7 +129,69 @@ export const mockFrameworks: Framework[] = [
     totalIndicators: 33,
     trend: 'Stable',
     keyObjectivesCount: 6,
-    strategiesCount: 24
+    strategiesCount: 24,
+    subsectors: [
+      {
+        id: 'sub-sp-so1',
+        code: 'SO-1',
+        name: 'SO 1: Secondary Access & School Capacity',
+        subsectorLead: 'Secondary Wing',
+        leadDepartmentId: 'dse',
+        leadDepartmentName: 'Division of Secondary Education',
+        allocatedBudgetTZS: 48000,
+        performanceScore: 82.1,
+        status: 'GREEN',
+        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02']
+      },
+      {
+        id: 'sub-sp-so2',
+        code: 'SO-2',
+        name: 'SO 2: TVET Access & VETA Vocational Training',
+        subsectorLead: 'TVET Wing',
+        leadDepartmentId: 'dtvet',
+        leadDepartmentName: 'Division of Technical & Vocational Education',
+        allocatedBudgetTZS: 32000,
+        performanceScore: 84.0,
+        status: 'GREEN',
+        indicatorCodes: ['IND-TVET-01', 'IND-TVET-02']
+      },
+      {
+        id: 'sub-sp-so3',
+        code: 'SO-3',
+        name: 'SO 3: Upgrading Teacher Competencies & PTR',
+        subsectorLead: 'Teacher Wing',
+        leadDepartmentId: 'dte',
+        leadDepartmentName: 'Division of Teacher Education',
+        allocatedBudgetTZS: 21000,
+        performanceScore: 67.4,
+        status: 'RED',
+        indicatorCodes: ['IND-TCH-01', 'IND-TCH-02']
+      },
+      {
+        id: 'sub-sp-so4',
+        code: 'SO-4',
+        name: 'SO 4: Higher Education STEM & Research Excellence',
+        subsectorLead: 'Higher Ed Wing',
+        leadDepartmentId: 'dhe',
+        leadDepartmentName: 'Division of Higher Education',
+        allocatedBudgetTZS: 107500,
+        performanceScore: 75.5,
+        status: 'YELLOW',
+        indicatorCodes: ['IND-HED-01', 'IND-HED-02', 'IND-STI-01']
+      },
+      {
+        id: 'sub-sp-so5',
+        code: 'SO-5',
+        name: 'SO 5: School Quality Assurance & ICT Connectivity',
+        subsectorLead: 'Quality & ICT Wing',
+        leadDepartmentId: 'sqa',
+        leadDepartmentName: 'Department of School Quality Assurance',
+        allocatedBudgetTZS: 31500,
+        performanceScore: 90.1,
+        status: 'GREEN',
+        indicatorCodes: ['IND-SQA-01', 'IND-ICT-01']
+      }
+    ]
   },
   {
     id: 'sdg',
@@ -61,7 +209,69 @@ export const mockFrameworks: Framework[] = [
     totalIndicators: 26,
     trend: 'Up',
     keyObjectivesCount: 7,
-    strategiesCount: 14
+    strategiesCount: 14,
+    subsectors: [
+      {
+        id: 'sub-sdg-41',
+        code: 'SDG-4.1',
+        name: 'Target 4.1: Free, Equitable Primary & Secondary Education',
+        subsectorLead: 'General Education',
+        leadDepartmentId: 'dse',
+        leadDepartmentName: 'Division of Secondary Education',
+        allocatedBudgetTZS: 110000,
+        performanceScore: 84.2,
+        status: 'GREEN',
+        indicatorCodes: ['IND-SEC-01', 'IND-BAS-01']
+      },
+      {
+        id: 'sub-sdg-43',
+        code: 'SDG-4.3',
+        name: 'Target 4.3: Equal Access to TVET & Higher Education',
+        subsectorLead: 'Tertiary Wing',
+        leadDepartmentId: 'dhe',
+        leadDepartmentName: 'Division of Higher Education',
+        allocatedBudgetTZS: 121000,
+        performanceScore: 78.8,
+        status: 'YELLOW',
+        indicatorCodes: ['IND-TVET-01', 'IND-HED-01']
+      },
+      {
+        id: 'sub-sdg-44',
+        code: 'SDG-4.4',
+        name: 'Target 4.4: Skills for Decent Employment',
+        subsectorLead: 'Skills Wing',
+        leadDepartmentId: 'dtvet',
+        leadDepartmentName: 'Division of Technical & Vocational Education',
+        allocatedBudgetTZS: 32000,
+        performanceScore: 84.0,
+        status: 'GREEN',
+        indicatorCodes: ['IND-TVET-02']
+      },
+      {
+        id: 'sub-sdg-45',
+        code: 'SDG-4.5',
+        name: 'Target 4.5: Gender Parity & Girls Retention',
+        subsectorLead: 'Gender Unit',
+        leadDepartmentId: 'dse',
+        leadDepartmentName: 'Division of Secondary Education',
+        allocatedBudgetTZS: 48000,
+        performanceScore: 82.1,
+        status: 'GREEN',
+        indicatorCodes: ['IND-SEC-02']
+      },
+      {
+        id: 'sub-sdg-4c',
+        code: 'SDG-4.C',
+        name: 'Target 4.C: Trained & Qualified Teachers',
+        subsectorLead: 'Teacher Wing',
+        leadDepartmentId: 'dte',
+        leadDepartmentName: 'Division of Teacher Education',
+        allocatedBudgetTZS: 21000,
+        performanceScore: 67.4,
+        status: 'RED',
+        indicatorCodes: ['IND-TCH-01', 'IND-TCH-02']
+      }
+    ]
   },
   {
     id: 'ccm',
@@ -79,7 +289,69 @@ export const mockFrameworks: Framework[] = [
     totalIndicators: 25,
     trend: 'Up',
     keyObjectivesCount: 4,
-    strategiesCount: 12
+    strategiesCount: 12,
+    subsectors: [
+      {
+        id: 'sub-ccm-c1',
+        code: 'CCM-1',
+        name: 'Commitment 1: Fee-Free Basic Education Capitation',
+        subsectorLead: 'Basic Ed Wing',
+        leadDepartmentId: 'dbe',
+        leadDepartmentName: 'Division of Basic Education',
+        allocatedBudgetTZS: 62000,
+        performanceScore: 86.4,
+        status: 'GREEN',
+        indicatorCodes: ['IND-BAS-01']
+      },
+      {
+        id: 'sub-ccm-c3',
+        code: 'CCM-3',
+        name: 'Commitment 3: Ward Secondary School Construction',
+        subsectorLead: 'Secondary Wing',
+        leadDepartmentId: 'dse',
+        leadDepartmentName: 'Division of Secondary Education',
+        allocatedBudgetTZS: 48000,
+        performanceScore: 82.1,
+        status: 'GREEN',
+        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02']
+      },
+      {
+        id: 'sub-ccm-c6',
+        code: 'CCM-6',
+        name: 'Commitment 6: VETA Centers in Every District',
+        subsectorLead: 'TVET Wing',
+        leadDepartmentId: 'dtvet',
+        leadDepartmentName: 'Division of Technical & Vocational Education',
+        allocatedBudgetTZS: 32000,
+        performanceScore: 84.0,
+        status: 'GREEN',
+        indicatorCodes: ['IND-TVET-01']
+      },
+      {
+        id: 'sub-ccm-c8',
+        code: 'CCM-8',
+        name: 'Commitment 8: University Infrastructure & STEM',
+        subsectorLead: 'Higher Ed Wing',
+        leadDepartmentId: 'dhe',
+        leadDepartmentName: 'Division of Higher Education',
+        allocatedBudgetTZS: 89000,
+        performanceScore: 73.6,
+        status: 'YELLOW',
+        indicatorCodes: ['IND-HED-01', 'IND-HED-02']
+      },
+      {
+        id: 'sub-ccm-c9',
+        code: 'CCM-9',
+        name: 'Commitment 9: National Research Fund Expansion',
+        subsectorLead: 'Research Wing',
+        leadDepartmentId: 'dsti',
+        leadDepartmentName: 'Division of Science, Technology & Innovation',
+        allocatedBudgetTZS: 18500,
+        performanceScore: 79.5,
+        status: 'YELLOW',
+        indicatorCodes: ['IND-STI-01']
+      }
+    ]
   }
 ];
 
