@@ -3,7 +3,8 @@ import {
   GitFork, 
   Target, 
   Globe2, 
-  BookmarkCheck
+  BookmarkCheck,
+  Calendar
 } from 'lucide-react';
 import { useDashboard } from '../../context/DashboardContext';
 import { TheoryOfChangeExplorer } from './TheoryOfChangeExplorer';
@@ -32,9 +33,16 @@ export const FrameworksView: React.FC = () => {
             Integrated monitoring across ESDP 2025-2030, Strategic Plan, SDG 4 and CCM Manifesto commitments.
           </p>
         </div>
-        <div className="flex items-center space-x-2 text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg">
-          <span>Active Filter:</span>
-          <span className="text-blue-700 font-bold uppercase">{filters.frameworkId}</span>
+        <div className="flex items-center space-x-3 text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+          <div className="flex items-center space-x-1 font-bold text-slate-800">
+            <Calendar className="w-3.5 h-3.5 text-blue-600" />
+            <span>FY: {filters.reportingPeriod}</span>
+          </div>
+          <span className="text-slate-300">|</span>
+          <div>
+            <span>Framework: </span>
+            <span className="text-blue-700 font-bold uppercase">{filters.frameworkId}</span>
+          </div>
         </div>
       </div>
 
@@ -71,7 +79,7 @@ export const FrameworksView: React.FC = () => {
 
               <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
                 <div>
-                  <p className="text-[10px] text-slate-400 font-semibold uppercase">Overall Score</p>
+                  <p className="text-[10px] text-slate-400 font-semibold uppercase">FY {filters.reportingPeriod} Score</p>
                   <p className="text-xl font-black text-slate-900">{fw.overallScore}%</p>
                 </div>
                 <div className="text-right text-xs text-slate-500">
