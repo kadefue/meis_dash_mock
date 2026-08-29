@@ -4,11 +4,6 @@ import {
   GitFork, 
   FolderKanban, 
   Building2, 
-  Target, 
-  FileText, 
-  Bell, 
-  CheckCircle2, 
-  Settings,
   ChevronLeft,
   ChevronRight,
   ShieldCheck
@@ -22,23 +17,13 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
-  const { activeTab, setActiveTab, alerts } = useDashboard();
-
-  const unreadAlertsCount = alerts.filter(a => a.severity === 'RED').length;
+  const { activeTab, setActiveTab } = useDashboard();
 
   const primaryNavItems: { id: MainTab; label: string; icon: React.ReactNode }[] = [
     { id: 'overview', label: 'Overview', icon: <LayoutDashboard className="w-5 h-5" /> },
     { id: 'frameworks', label: 'Frameworks', icon: <GitFork className="w-5 h-5" /> },
     { id: 'projects', label: 'Projects', icon: <FolderKanban className="w-5 h-5" /> },
     { id: 'departments', label: 'Departments', icon: <Building2 className="w-5 h-5" /> }
-  ];
-
-  const secondaryNavItems: { id: MainTab; label: string; icon: React.ReactNode; badge?: number }[] = [
-    { id: 'cross-cutting', label: 'Cross-Framework Alignment', icon: <Target className="w-5 h-5" /> },
-    { id: 'indicators', label: 'Indicators & Results', icon: <FileText className="w-5 h-5" /> },
-    { id: 'alerts', label: 'Management Alerts', icon: <Bell className="w-5 h-5" />, badge: unreadAlertsCount },
-    { id: 'data-quality', label: 'Data Quality & Audit', icon: <CheckCircle2 className="w-5 h-5" /> },
-    { id: 'settings', label: 'System Settings', icon: <Settings className="w-5 h-5" /> }
   ];
 
   return (
@@ -99,48 +84,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => 
                     {item.icon}
                   </span>
                   {!collapsed && <span className="ml-3 truncate">{item.label}</span>}
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-
-        <div className="px-3 border-t border-slate-800/80 my-2"></div>
-
-        {/* Secondary Navigation */}
-        <div className="px-3 py-2">
-          {!collapsed && (
-            <p className="px-3 text-[10px] font-semibold tracking-wider text-slate-400 uppercase mb-2">
-              M&E Diagnostics & Reports
-            </p>
-          )}
-          <nav className="space-y-1">
-            {secondaryNavItems.map((item) => {
-              const isActive = activeTab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center ${collapsed ? 'justify-center' : 'justify-start'} px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                    isActive
-                      ? 'bg-slate-800 text-emerald-400 border border-slate-700'
-                      : 'text-slate-400 hover:bg-slate-800/70 hover:text-slate-200'
-                  }`}
-                  title={collapsed ? item.label : undefined}
-                >
-                  <span className={`${isActive ? 'text-emerald-400' : 'text-slate-400'}`}>
-                    {item.icon}
-                  </span>
-                  {!collapsed && (
-                    <div className="ml-3 flex items-center justify-between w-full truncate">
-                      <span className="truncate">{item.label}</span>
-                      {item.badge && item.badge > 0 ? (
-                        <span className="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-red-500 text-white rounded-full">
-                          {item.badge}
-                        </span>
-                      ) : null}
-                    </div>
-                  )}
                 </button>
               );
             })}
