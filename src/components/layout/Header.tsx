@@ -68,10 +68,15 @@ export const Header: React.FC = () => {
     }
   };
 
-  // Determine contextual filter visibility per active view
-  const showFrameworkFilter = activeTab === 'frameworks' || activeTab === 'overview' || activeTab === 'cross-cutting' || activeTab === 'indicators';
-  const showProjectFilter = activeTab === 'projects' || activeTab === 'overview' || activeTab === 'cross-cutting' || activeTab === 'indicators';
-  const showDepartmentFilter = activeTab === 'departments' || activeTab === 'overview' || activeTab === 'cross-cutting' || activeTab === 'indicators';
+  // Contextual filter visibility rules:
+  // Overview: FY (Period) only.
+  // Frameworks: FY + Frameworks only.
+  // Projects: FY + Projects only.
+  // Departments: FY + Departments only.
+  // Cross-Cutting & Indicators: FY + Frameworks + Projects + Departments.
+  const showFrameworkFilter = activeTab === 'frameworks' || activeTab === 'cross-cutting' || activeTab === 'indicators';
+  const showProjectFilter = activeTab === 'projects' || activeTab === 'cross-cutting' || activeTab === 'indicators';
+  const showDepartmentFilter = activeTab === 'departments' || activeTab === 'cross-cutting' || activeTab === 'indicators';
 
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
@@ -220,7 +225,7 @@ export const Header: React.FC = () => {
             </select>
           </div>
 
-          {/* Framework Selector - Only shown in Frameworks, Overview & Cross-Cutting views */}
+          {/* Framework Selector - Only shown in Frameworks, Cross-Cutting & Indicators views */}
           {showFrameworkFilter && (
             <div className="flex items-center bg-white border border-slate-200 rounded-md px-2 py-1 space-x-1">
               <span className="text-slate-500 font-medium">Framework:</span>
@@ -237,7 +242,7 @@ export const Header: React.FC = () => {
             </div>
           )}
 
-          {/* Project Selector - Only shown in Projects, Overview & Cross-Cutting views */}
+          {/* Project Selector - Only shown in Projects, Cross-Cutting & Indicators views */}
           {showProjectFilter && (
             <div className="flex items-center bg-white border border-slate-200 rounded-md px-2 py-1 space-x-1">
               <span className="text-slate-500 font-medium">Project:</span>
@@ -254,7 +259,7 @@ export const Header: React.FC = () => {
             </div>
           )}
 
-          {/* Department Selector - Only shown in Departments, Overview & Cross-Cutting views */}
+          {/* Department Selector - Only shown in Departments, Cross-Cutting & Indicators views */}
           {showDepartmentFilter && (
             <div className="flex items-center bg-white border border-slate-200 rounded-md px-2 py-1 space-x-1">
               <span className="text-slate-500 font-medium">Department:</span>
