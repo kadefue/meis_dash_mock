@@ -8,7 +8,16 @@ import {
   Building2, 
   ArrowRight, 
   Target, 
-  FolderKanban
+  FolderKanban,
+  Coins,
+  Wrench,
+  PackageCheck,
+  TrendingUp,
+  Award,
+  Globe2,
+  CheckCircle2,
+  AlertTriangle,
+  Info
 } from 'lucide-react';
 import { useDashboard } from '../../context/DashboardContext';
 import type { TheoryOfChangeNode } from '../../types/dashboard';
@@ -38,6 +47,9 @@ export const TheoryOfChangeExplorer: React.FC = () => {
     'toc-sp1-out1': true
   });
 
+  // Flow chain priority filter state
+  const [selectedChainPriorityId, setSelectedChainPriorityId] = useState<string>('all');
+
   const toggleNodeExpansion = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setExpandedNodeIds(prev => ({ ...prev, [id]: !prev[id] }));
@@ -50,13 +62,13 @@ export const TheoryOfChangeExplorer: React.FC = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'GREEN':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">🟢 On Target</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> On Target</span>;
       case 'YELLOW':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">🟡 At Risk</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200 flex items-center gap-1"><AlertTriangle className="w-3 h-3 text-amber-600" /> At Risk</span>;
       case 'RED':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-800 border border-red-200">🔴 Underperforming</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-800 border border-red-200 flex items-center gap-1"><AlertTriangle className="w-3 h-3 text-red-600" /> Underperforming</span>;
       default:
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700">⚪ No Data</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 flex items-center gap-1"><Info className="w-3 h-3 text-slate-400" /> No Data</span>;
     }
   };
 
@@ -165,8 +177,14 @@ export const TheoryOfChangeExplorer: React.FC = () => {
     );
   };
 
-  const firstPriority = theoryOfChangeTree.children?.[0];
-  const firstOutcome = firstPriority?.children?.[0];
+  // Derive active priority chain children for Results Pipeline
+  const availablePriorities = theoryOfChangeTree.children || [];
+  const selectedPriorityNode = selectedChainPriorityId === 'all' 
+    ? availablePriorities[0] 
+    : (availablePriorities.find(p => p.id === selectedChainPriorityId) || availablePriorities[0]);
+
+  const selectedOutcomeNode = selectedPriorityNode?.children?.[0];
+  const selectedInterventionNode = selectedOutcomeNode?.children?.[0];
 
   return (
     <div className="space-y-6">
@@ -204,7 +222,7 @@ export const TheoryOfChangeExplorer: React.FC = () => {
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
-            <span>Flow View</span>
+            <span>Flow View (6-Stage Chain)</span>
           </button>
           <button
             onClick={() => setTocVisualization('table')}
@@ -300,7 +318,7 @@ export const TheoryOfChangeExplorer: React.FC = () => {
         </div>
       )}
 
-      {/* Main View Renderer based on selected TOC visualization */}
+      {/* Tree View */}
       {tocVisualization === 'tree' && (
         <div className="dashboard-card p-6">
           <div className="flex items-center justify-between mb-4">
@@ -316,87 +334,332 @@ export const TheoryOfChangeExplorer: React.FC = () => {
         </div>
       )}
 
+      {/* FULL 6-STAGE RESULTS PIPELINE FLOW GRAPH */}
       {tocVisualization === 'flow' && (
-        <div className="dashboard-card p-6 overflow-x-auto">
-          <h3 className="text-sm font-bold text-slate-900 mb-2">Results Pipeline Flow ({activeFwObj.code})</h3>
-          <p className="text-xs text-slate-500 mb-4">Horizontal Theory of Change progression for {activeFwObj.name}</p>
+        <div className="dashboard-card p-6 space-y-6">
           
-          <div className="flex items-stretch space-x-4 min-w-[900px] py-4">
-            
-            {/* Stage 1: Framework Goal */}
-            <div className="w-64 p-4 rounded-xl bg-blue-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
-              <div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-black bg-blue-700 text-blue-100">STEP 1 • GOAL</span>
-                <h4 className="text-sm font-bold mt-2 truncate">{activeFwObj.name} Goal</h4>
-                <p className="text-xs text-slate-200 mt-1">{activeFwObj.code}</p>
+          {/* Header & Sub-Chain Filter */}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+            <div>
+              <div className="flex items-center space-x-2 text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">
+                <Layers className="w-4 h-4" />
+                <span>Full M&E Results Pipeline (Inputs ➔ Activities ➔ Outputs ➔ Intermediate Outcomes ➔ Strategic Outcomes ➔ Impact)</span>
               </div>
-              <div className="mt-4 pt-3 border-t border-blue-800 text-xs">
-                <span className="text-emerald-400 font-bold">{activeFwObj.overallScore}% Overall Score</span>
-              </div>
+              <h3 className="text-base font-black text-slate-900">
+                Complete Results Chain for {activeFwObj.fullName}
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Inspect how financial and operational inputs convert through activities, outputs, and outcomes to achieve long-term national impact.
+              </p>
             </div>
 
-            <div className="flex items-center text-slate-400"><ArrowRight className="w-5 h-5" /></div>
-
-            {/* Stage 2: Strategic Priority */}
-            <div className="w-64 p-4 rounded-xl bg-indigo-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
-              <div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-black bg-indigo-700 text-indigo-100">STEP 2 • PRIORITY</span>
-                <h4 className="text-sm font-bold mt-2 truncate">{firstPriority ? firstPriority.name : 'Strategic Priority'}</h4>
-                <p className="text-xs text-slate-200 mt-1">{firstPriority ? firstPriority.code : 'Priority 1'}</p>
+            {/* Priority Selector */}
+            {availablePriorities.length > 0 && (
+              <div className="flex items-center space-x-2 flex-shrink-0 text-xs">
+                <span className="font-bold text-slate-700">Priority Chain:</span>
+                <select
+                  value={selectedChainPriorityId}
+                  onChange={(e) => setSelectedChainPriorityId(e.target.value)}
+                  className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white font-semibold text-slate-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                >
+                  <option value="all">All Strategic Priorities</option>
+                  {availablePriorities.map(p => (
+                    <option key={p.id} value={p.id}>{p.code}: {p.name.split(':')[1] || p.name}</option>
+                  ))}
+                </select>
               </div>
-              <div className="mt-4 pt-3 border-t border-indigo-800 text-xs">
-                <span className="text-emerald-400 font-bold">{firstPriority?.achievement ? `${firstPriority.achievement}%` : '85.0%'} Achievement</span>
-              </div>
-            </div>
-
-            <div className="flex items-center text-slate-400"><ArrowRight className="w-5 h-5" /></div>
-
-            {/* Stage 3: Outcome */}
-            <div className="w-64 p-4 rounded-xl bg-teal-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
-              <div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-black bg-teal-700 text-teal-100">STEP 3 • OUTCOME</span>
-                <h4 className="text-sm font-bold mt-2 truncate">{firstOutcome ? firstOutcome.name : 'Target Outcome'}</h4>
-                <p className="text-xs text-slate-200 mt-1">{firstOutcome ? firstOutcome.code : 'Outcome 1.1'}</p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-teal-800 text-xs">
-                <span className="text-amber-400 font-bold">{firstOutcome?.achievement ? `${firstOutcome.achievement}%` : '78.5%'} Achievement</span>
-              </div>
-            </div>
-
-            <div className="flex items-center text-slate-400"><ArrowRight className="w-5 h-5" /></div>
-
-            {/* Stage 4: Output / Intervention */}
-            <div className="w-64 p-4 rounded-xl bg-purple-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
-              <div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-black bg-purple-700 text-purple-100">STEP 4 • INTERVENTION</span>
-                <h4 className="text-sm font-bold mt-2">Implementation Output</h4>
-                <p className="text-xs text-slate-200 mt-1">Division Execution</p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-purple-800 text-xs">
-                <span className="text-emerald-400 font-bold">82.0% Delivery Rate</span>
-              </div>
-            </div>
-
-            <div className="flex items-center text-slate-400"><ArrowRight className="w-5 h-5" /></div>
-
-            {/* Stage 5: Indicator */}
-            <div className="w-64 p-4 rounded-xl bg-slate-900 text-white flex flex-col justify-between flex-shrink-0 shadow-md">
-              <div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-black bg-slate-700 text-slate-200">STEP 5 • INDICATOR</span>
-                <h4 className="text-sm font-bold mt-2 truncate">{filteredIndicators[0]?.name || 'Key Metric'}</h4>
-                <p className="text-xs text-slate-300 mt-1">{filteredIndicators[0]?.code || 'IND-01'}</p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-800 text-xs">
-                <span className="text-amber-400 font-bold">
-                  {filteredIndicators[0]?.actual !== null ? `${filteredIndicators[0]?.actual} ${filteredIndicators[0]?.unit}` : 'No Data'}
-                </span>
-              </div>
-            </div>
-
+            )}
           </div>
+
+          {/* Horizontal 6-Stage Scrollable Chain Visualizer */}
+          <div className="overflow-x-auto pb-4 pt-2">
+            <div className="flex items-stretch space-x-4 min-w-[1400px]">
+              
+              {/* STAGE 1: INPUTS */}
+              <div className="w-64 p-4 rounded-xl bg-gradient-to-br from-slate-900 to-slate-800 text-white flex flex-col justify-between flex-shrink-0 shadow-lg border border-slate-700">
+                <div>
+                  <div className="flex items-center justify-between border-b border-slate-700 pb-2 mb-3">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-slate-700 text-slate-100 flex items-center gap-1">
+                      <Coins className="w-3 h-3 text-amber-400" />
+                      <span>STAGE 1 • INPUTS</span>
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-mono">Resource Allocation</span>
+                  </div>
+                  <h4 className="text-sm font-bold text-white">Financial & Human Inputs</h4>
+                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                    National M&E budget allocation, development partner financing, and personnel deployment.
+                  </p>
+                  
+                  <div className="mt-4 space-y-2 text-xs bg-slate-800/80 p-2.5 rounded-lg border border-slate-700">
+                    <div className="flex items-center justify-between text-slate-200">
+                      <span>Ministry Budget:</span>
+                      <strong className="text-emerald-400">TZS 358.0B</strong>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-200">
+                      <span>Project Grants:</span>
+                      <strong className="text-purple-300">$1.25 Billion</strong>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-200">
+                      <span>Key Projects:</span>
+                      <strong className="text-blue-300">SEQUIP, HEET, EP4R</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-slate-700 text-[11px] text-slate-300 flex items-center justify-between font-medium">
+                  <span>Owner: MoEST & Treasury</span>
+                  <span className="text-emerald-400 font-bold">100% Funds Committed</span>
+                </div>
+              </div>
+
+              {/* Arrow Connection */}
+              <div className="flex items-center text-slate-400 flex-shrink-0">
+                <div className="flex flex-col items-center">
+                  <ArrowRight className="w-6 h-6 text-blue-500 animate-pulse" />
+                  <span className="text-[9px] font-bold text-slate-400 uppercase mt-1">Deploys</span>
+                </div>
+              </div>
+
+              {/* STAGE 2: ACTIVITIES / INTERVENTIONS */}
+              <div className="w-64 p-4 rounded-xl bg-gradient-to-br from-indigo-900 to-indigo-800 text-white flex flex-col justify-between flex-shrink-0 shadow-lg border border-indigo-700">
+                <div>
+                  <div className="flex items-center justify-between border-b border-indigo-700 pb-2 mb-3">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-indigo-700 text-indigo-100 flex items-center gap-1">
+                      <Wrench className="w-3 h-3 text-indigo-300" />
+                      <span>STAGE 2 • ACTIVITIES</span>
+                    </span>
+                    <span className="text-[10px] text-indigo-200 font-mono">Implementation</span>
+                  </div>
+                  <h4 className="text-sm font-bold text-white">Interventions & Operations</h4>
+                  <p className="text-xs text-indigo-100 mt-1 leading-relaxed">
+                    {selectedInterventionNode ? selectedInterventionNode.name : 'Core operational training, civil works, and module rollouts.'}
+                  </p>
+
+                  <div className="mt-4 space-y-2 text-xs bg-indigo-950/60 p-2.5 rounded-lg border border-indigo-800">
+                    <div className="flex items-center justify-between">
+                      <span className="text-indigo-200">Execution Rate:</span>
+                      <strong className="text-emerald-300">82.0%</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-indigo-200">Division Lead:</span>
+                      <strong className="text-indigo-100 text-[11px] truncate">{selectedPriorityNode?.departmentName || 'Division of Secondary Ed'}</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-indigo-200">Ongoing Activities:</span>
+                      <strong className="text-indigo-200">24 Major Tasks</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-indigo-700 text-[11px] text-indigo-200 flex items-center justify-between font-medium">
+                  <span>Status: Operational</span>
+                  <span className="text-emerald-400 font-bold">82% Delivery Rate</span>
+                </div>
+              </div>
+
+              {/* Arrow Connection */}
+              <div className="flex items-center text-slate-400 flex-shrink-0">
+                <div className="flex flex-col items-center">
+                  <ArrowRight className="w-6 h-6 text-indigo-500 animate-pulse" />
+                  <span className="text-[9px] font-bold text-slate-400 uppercase mt-1">Delivers</span>
+                </div>
+              </div>
+
+              {/* STAGE 3: OUTPUTS */}
+              <div className="w-64 p-4 rounded-xl bg-gradient-to-br from-amber-900 to-amber-800 text-white flex flex-col justify-between flex-shrink-0 shadow-lg border border-amber-700">
+                <div>
+                  <div className="flex items-center justify-between border-b border-amber-700 pb-2 mb-3">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-amber-700 text-amber-100 flex items-center gap-1">
+                      <PackageCheck className="w-3 h-3 text-amber-300" />
+                      <span>STAGE 3 • OUTPUTS</span>
+                    </span>
+                    <span className="text-[10px] text-amber-200 font-mono">Delivered Goods</span>
+                  </div>
+                  <h4 className="text-sm font-bold text-white">Direct Delivered Products</h4>
+                  <p className="text-xs text-amber-100 mt-1 leading-relaxed">
+                    Infrastructure constructed, teachers trained, and capitation grants disbursed.
+                  </p>
+
+                  <div className="mt-4 space-y-2 text-xs bg-amber-950/60 p-2.5 rounded-lg border border-amber-800">
+                    <div className="flex items-center justify-between">
+                      <span className="text-amber-200">Ward Schools Built:</span>
+                      <strong className="text-emerald-300">120 Schools</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-amber-200">TCPD Modules:</span>
+                      <strong className="text-amber-300">112 LGAs Completed</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-amber-200">Capitation Grants:</span>
+                      <strong className="text-emerald-300">95.8% Disbursed</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-amber-700 text-[11px] text-amber-200 flex items-center justify-between font-medium">
+                  <span>Output Verification</span>
+                  <span className="text-amber-300 font-bold">78.5% Target Achieved</span>
+                </div>
+              </div>
+
+              {/* Arrow Connection */}
+              <div className="flex items-center text-slate-400 flex-shrink-0">
+                <div className="flex flex-col items-center">
+                  <ArrowRight className="w-6 h-6 text-amber-500 animate-pulse" />
+                  <span className="text-[9px] font-bold text-slate-400 uppercase mt-1">Leads To</span>
+                </div>
+              </div>
+
+              {/* STAGE 4: INTERMEDIATE OUTCOMES */}
+              <div className="w-64 p-4 rounded-xl bg-gradient-to-br from-teal-900 to-teal-800 text-white flex flex-col justify-between flex-shrink-0 shadow-lg border border-teal-700">
+                <div>
+                  <div className="flex items-center justify-between border-b border-teal-700 pb-2 mb-3">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-teal-700 text-teal-100 flex items-center gap-1">
+                      <TrendingUp className="w-3 h-3 text-teal-300" />
+                      <span>STAGE 4 • INT. OUTCOMES</span>
+                    </span>
+                    <span className="text-[10px] text-teal-200 font-mono">System Upgrades</span>
+                  </div>
+                  <h4 className="text-sm font-bold text-white">Capacity & Competency Upgrades</h4>
+                  <p className="text-xs text-teal-100 mt-1 leading-relaxed">
+                    {selectedOutcomeNode ? selectedOutcomeNode.name : 'Enhanced teacher competency, school environment, and PhD academic staff ratios.'}
+                  </p>
+
+                  <div className="mt-4 space-y-2 text-xs bg-teal-950/60 p-2.5 rounded-lg border border-teal-800">
+                    <div className="flex items-center justify-between">
+                      <span className="text-teal-200">Pupil-Teacher Ratio:</span>
+                      <strong className="text-emerald-300">38.2 Pupils/Tch</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-teal-200">Teacher CPD Cert:</span>
+                      <strong className="text-amber-300">61.2% (At Risk)</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-teal-200">Uni PhD Staff:</span>
+                      <strong className="text-emerald-300">44.8%</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-teal-700 text-[11px] text-teal-200 flex items-center justify-between font-medium">
+                  <span>Outcome Progress</span>
+                  <span className="text-amber-400 font-bold">{selectedOutcomeNode?.achievement ? `${selectedOutcomeNode.achievement}%` : '76.5%'} Score</span>
+                </div>
+              </div>
+
+              {/* Arrow Connection */}
+              <div className="flex items-center text-slate-400 flex-shrink-0">
+                <div className="flex flex-col items-center">
+                  <ArrowRight className="w-6 h-6 text-teal-500 animate-pulse" />
+                  <span className="text-[9px] font-bold text-slate-400 uppercase mt-1">Drives</span>
+                </div>
+              </div>
+
+              {/* STAGE 5: STRATEGIC OUTCOMES */}
+              <div className="w-64 p-4 rounded-xl bg-gradient-to-br from-emerald-900 to-emerald-800 text-white flex flex-col justify-between flex-shrink-0 shadow-lg border border-emerald-700">
+                <div>
+                  <div className="flex items-center justify-between border-b border-emerald-700 pb-2 mb-3">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-emerald-700 text-emerald-100 flex items-center gap-1">
+                      <Award className="w-3 h-3 text-emerald-300" />
+                      <span>STAGE 5 • OUTCOMES</span>
+                    </span>
+                    <span className="text-[10px] text-emerald-200 font-mono">Sector Results</span>
+                  </div>
+                  <h4 className="text-sm font-bold text-white">Strategic Sector Performance</h4>
+                  <p className="text-xs text-emerald-100 mt-1 leading-relaxed">
+                    {selectedPriorityNode ? selectedPriorityNode.name : 'Equitable access, retention, STEM enrolment, and vocational employment rates.'}
+                  </p>
+
+                  <div className="mt-4 space-y-2 text-xs bg-emerald-950/60 p-2.5 rounded-lg border border-emerald-800">
+                    <div className="flex items-center justify-between">
+                      <span className="text-emerald-200">Secondary NER:</span>
+                      <strong className="text-emerald-300">58.4% Enrolled</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-emerald-200">Girls Completion:</span>
+                      <strong className="text-emerald-300">76.5% Completed</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-emerald-200">TVET Intake:</span>
+                      <strong className="text-emerald-300">218,500 Students</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-emerald-700 text-[11px] text-emerald-200 flex items-center justify-between font-medium">
+                  <span>Priority Achievement</span>
+                  <span className="text-emerald-400 font-bold">{selectedPriorityNode?.achievement ? `${selectedPriorityNode.achievement}%` : '83.5%'} Score</span>
+                </div>
+              </div>
+
+              {/* Arrow Connection */}
+              <div className="flex items-center text-slate-400 flex-shrink-0">
+                <div className="flex flex-col items-center">
+                  <ArrowRight className="w-6 h-6 text-emerald-500 animate-pulse" />
+                  <span className="text-[9px] font-bold text-slate-400 uppercase mt-1">Fulfills</span>
+                </div>
+              </div>
+
+              {/* STAGE 6: NATIONAL IMPACT */}
+              <div className="w-64 p-4 rounded-xl bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 text-white flex flex-col justify-between flex-shrink-0 shadow-xl border border-blue-600 ring-2 ring-blue-500/20">
+                <div>
+                  <div className="flex items-center justify-between border-b border-blue-700 pb-2 mb-3">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-black bg-blue-600 text-white flex items-center gap-1">
+                      <Globe2 className="w-3 h-3 text-blue-200" />
+                      <span>STAGE 6 • IMPACT</span>
+                    </span>
+                    <span className="text-[10px] text-blue-200 font-mono">National Goal</span>
+                  </div>
+                  <h4 className="text-sm font-black text-white">{activeFwObj.name} National Goal</h4>
+                  <p className="text-xs text-blue-100 mt-1 leading-relaxed">
+                    Long-term national economic transformation, industrial skills development, and UN SDG 4 achievement.
+                  </p>
+
+                  <div className="mt-4 space-y-2 text-xs bg-blue-950/80 p-2.5 rounded-lg border border-blue-700">
+                    <div className="flex items-center justify-between">
+                      <span className="text-blue-200">Framework Code:</span>
+                      <strong className="text-blue-200 font-mono">{activeFwObj.code}</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-blue-200">Aligned Framework:</span>
+                      <strong className="text-emerald-300">{activeFwObj.name}</strong>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-blue-200">Reporting Horizon:</span>
+                      <strong className="text-amber-300">{activeFwObj.period}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-blue-700 text-[11px] text-blue-100 flex items-center justify-between font-bold">
+                  <span>Overall Sector Score</span>
+                  <span className="text-emerald-400 text-sm font-black">{activeFwObj.overallScore}%</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Interactive Results Chain Legend & Summary Note */}
+          <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-slate-600">
+            <div className="flex items-center space-x-4 flex-wrap gap-y-2">
+              <span className="font-bold text-slate-800">Results Chain Stages:</span>
+              <span className="flex items-center gap-1 font-semibold text-slate-700"><span className="w-2.5 h-2.5 rounded-full bg-slate-800 inline-block"></span> 1. Inputs</span>
+              <span className="flex items-center gap-1 font-semibold text-slate-700"><span className="w-2.5 h-2.5 rounded-full bg-indigo-700 inline-block"></span> 2. Activities</span>
+              <span className="flex items-center gap-1 font-semibold text-slate-700"><span className="w-2.5 h-2.5 rounded-full bg-amber-700 inline-block"></span> 3. Outputs</span>
+              <span className="flex items-center gap-1 font-semibold text-slate-700"><span className="w-2.5 h-2.5 rounded-full bg-teal-700 inline-block"></span> 4. Int. Outcomes</span>
+              <span className="flex items-center gap-1 font-semibold text-slate-700"><span className="w-2.5 h-2.5 rounded-full bg-emerald-700 inline-block"></span> 5. Outcomes</span>
+              <span className="flex items-center gap-1 font-semibold text-slate-700"><span className="w-2.5 h-2.5 rounded-full bg-blue-800 inline-block"></span> 6. Impact</span>
+            </div>
+            <div className="text-slate-500 italic">
+              * Click any card in Tree View or Indicator Table to inspect lower-level metrics.
+            </div>
+          </div>
+
         </div>
       )}
 
+      {/* Indicator Table View */}
       {tocVisualization === 'table' && (
         <div className="dashboard-card p-5 overflow-x-auto">
           <div className="flex items-center justify-between mb-3">
