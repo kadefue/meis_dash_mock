@@ -248,7 +248,7 @@ export const ExecutiveOverview: React.FC = () => {
             <p className="text-[11px] text-slate-500 mt-0.5">On Target</p>
           </div>
           <div className="mt-2 flex items-center justify-between text-indigo-600">
-            <span className="text-[10px] font-semibold">Directorates</span>
+            <span className="text-[10px] font-semibold">Divisions</span>
             <Building2 className="w-4 h-4" />
           </div>
         </div>

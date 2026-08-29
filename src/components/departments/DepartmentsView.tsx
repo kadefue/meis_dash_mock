@@ -27,9 +27,9 @@ export const DepartmentsView: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
-          <h2 className="text-xl font-black text-slate-900 tracking-tight">Ministry Directorates & Departments Accountability</h2>
+          <h2 className="text-xl font-black text-slate-900 tracking-tight">Ministry Divisions & Departments Accountability</h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Operational performance, budget utilization, strategic objectives, and indicators by MoEST directorate.
+            Operational performance, budget utilization, strategic objectives, and indicators by MoEST division.
           </p>
         </div>
         <div className="flex items-center space-x-3 text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
@@ -40,7 +40,7 @@ export const DepartmentsView: React.FC = () => {
           <span className="text-slate-300">|</span>
           <div className="flex items-center space-x-1">
             <Filter className="w-3.5 h-3.5 text-indigo-600" />
-            <span>Directorate: </span>
+            <span>Division: </span>
             <span className="text-indigo-700 font-bold uppercase">{selectedDept.code}</span>
           </div>
         </div>
@@ -104,11 +104,11 @@ export const DepartmentsView: React.FC = () => {
               <div>
                 <div className="flex items-center space-x-2 text-emerald-400 text-xs font-bold uppercase mb-1">
                   <Building2 className="w-4 h-4" />
-                  <span>Directorate Profile • {selectedDept.code} (FY {filters.reportingPeriod})</span>
+                  <span>Division Profile • {selectedDept.code} (FY {filters.reportingPeriod})</span>
                 </div>
                 <h3 className="text-2xl font-black text-white">{selectedDept.name}</h3>
                 <p className="text-xs text-slate-300 mt-1">
-                  Head of Directorate: <strong className="text-emerald-300">{selectedDept.headOfDepartment}</strong> | Sector Wing: {selectedDept.directorate}
+                  Head of Division: <strong className="text-emerald-300">{selectedDept.headOfDepartment}</strong> | Sector Wing: {selectedDept.division}
                 </p>
               </div>
 
@@ -134,7 +134,7 @@ export const DepartmentsView: React.FC = () => {
 
             {/* Strategic Objectives List */}
             <div className="pt-5">
-              <p className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Directorate Strategic Objectives:</p>
+              <p className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Division Strategic Objectives:</p>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                 {selectedDept.strategicObjectives.map((obj, idx) => (
                   <li key={idx} className="p-2.5 rounded-lg bg-slate-800 border border-slate-700/80 text-slate-200 font-medium">
@@ -163,9 +163,9 @@ export const DepartmentsView: React.FC = () => {
 
           {/* Department Linked Indicators Table */}
           <div className="dashboard-card p-5 overflow-x-auto">
-            <h3 className="text-sm font-bold text-slate-900 mb-3">Linked Directorate Indicators ({selectedDept.code})</h3>
+            <h3 className="text-sm font-bold text-slate-900 mb-3">Linked Division Indicators ({selectedDept.code})</h3>
             {deptIndicators.length === 0 ? (
-              <p className="text-xs text-slate-500 italic p-4 text-center">No indicators directly assigned to this directorate.</p>
+              <p className="text-xs text-slate-500 italic p-4 text-center">No indicators directly assigned to this division.</p>
             ) : (
               <table className="w-full text-left text-xs border-collapse">
                 <thead>

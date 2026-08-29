@@ -147,7 +147,7 @@ export interface Department {
   id: string;
   code: string;
   name: string;
-  directorate: string;
+  division: string;
   headOfDepartment: string;
   overallPerformance: number;
   status: PerformanceStatus;

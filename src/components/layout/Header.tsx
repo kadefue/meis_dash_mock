@@ -58,7 +58,7 @@ export const Header: React.FC = () => {
       case 'overview': return 'Executive Overview';
       case 'frameworks': return 'National Education Frameworks';
       case 'projects': return 'Projects & Programs';
-      case 'departments': return 'Ministry Directorates & Departments';
+      case 'departments': return 'Ministry Divisions & Departments';
       case 'cross-cutting': return 'Cross-Framework Alignment Matrix';
       case 'indicators': return 'Indicators & Results Registry';
       case 'alerts': return 'Management Attention & Alerts';
@@ -268,7 +268,7 @@ export const Header: React.FC = () => {
                 onChange={handleDepartmentChange}
                 className="bg-transparent text-slate-800 font-bold focus:outline-none cursor-pointer max-w-[180px] truncate"
               >
-                <option value="all">All Directorates</option>
+                <option value="all">All Divisions</option>
                 {departments.map(d => (
                   <option key={d.id} value={d.id}>{d.code} - {d.name}</option>
                 ))}

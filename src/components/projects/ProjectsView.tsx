@@ -150,7 +150,7 @@ export const ProjectsView: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-black text-white">{selectedProject.fullName}</h3>
                 <p className="text-xs text-slate-300 mt-1">
-                  Lead Directorate: <strong className="text-emerald-300">{selectedProject.leadDepartmentName}</strong> | Funder: {selectedProject.funder}
+                  Lead Division: <strong className="text-emerald-300">{selectedProject.leadDepartmentName}</strong> | Funder: {selectedProject.funder}
                 </p>
               </div>
 
