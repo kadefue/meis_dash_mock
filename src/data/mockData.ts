@@ -37,7 +37,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 62000,
         performanceScore: 86.4,
         status: 'GREEN',
-        indicatorCodes: ['IND-BAS-01']
+        indicatorCodes: ['IND-BAS-01', 'IND-BAS-02', 'IND-BAS-03', 'IND-SQA-01', 'IND-TCH-04']
       },
       {
         id: 'sub-esdp-sec',
@@ -49,7 +49,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 48000,
         performanceScore: 82.1,
         status: 'GREEN',
-        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02']
+        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02', 'IND-SEC-03', 'IND-SEC-04', 'IND-ICT-01']
       },
       {
         id: 'sub-esdp-tch',
@@ -61,7 +61,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 21000,
         performanceScore: 67.4,
         status: 'RED',
-        indicatorCodes: ['IND-TCH-01', 'IND-TCH-02']
+        indicatorCodes: ['IND-TCH-01', 'IND-TCH-02', 'IND-TCH-03', 'IND-TCH-04', 'IND-SQA-01']
       },
       {
         id: 'sub-esdp-tvet',
@@ -73,7 +73,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 32000,
         performanceScore: 84.0,
         status: 'GREEN',
-        indicatorCodes: ['IND-TVET-01', 'IND-TVET-02']
+        indicatorCodes: ['IND-TVET-01', 'IND-TVET-02', 'IND-TVET-03', 'IND-TVET-04', 'IND-HED-01']
       },
       {
         id: 'sub-esdp-hed',
@@ -85,7 +85,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 89000,
         performanceScore: 73.6,
         status: 'YELLOW',
-        indicatorCodes: ['IND-HED-01', 'IND-HED-02']
+        indicatorCodes: ['IND-HED-01', 'IND-HED-02', 'IND-HED-03', 'IND-HED-04', 'IND-STI-01']
       },
       {
         id: 'sub-esdp-sti',
@@ -97,7 +97,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 18500,
         performanceScore: 79.5,
         status: 'YELLOW',
-        indicatorCodes: ['IND-STI-01']
+        indicatorCodes: ['IND-STI-01', 'IND-STI-02', 'IND-HED-04', 'IND-HED-01', 'IND-ICT-02']
       },
       {
         id: 'sub-esdp-gov',
@@ -109,7 +109,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 31500,
         performanceScore: 90.1,
         status: 'GREEN',
-        indicatorCodes: ['IND-SQA-01', 'IND-ICT-01']
+        indicatorCodes: ['IND-SQA-01', 'IND-SQA-02', 'IND-ICT-01', 'IND-ICT-02', 'IND-BAS-01']
       }
     ]
   },
@@ -141,7 +141,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 48000,
         performanceScore: 82.1,
         status: 'GREEN',
-        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02']
+        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02', 'IND-SEC-03', 'IND-SEC-04', 'IND-BAS-02']
       },
       {
         id: 'sub-sp-so2',
@@ -153,7 +153,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 32000,
         performanceScore: 84.0,
         status: 'GREEN',
-        indicatorCodes: ['IND-TVET-01', 'IND-TVET-02']
+        indicatorCodes: ['IND-TVET-01', 'IND-TVET-02', 'IND-TVET-03', 'IND-TVET-04', 'IND-HED-01']
       },
       {
         id: 'sub-sp-so3',
@@ -165,7 +165,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 21000,
         performanceScore: 67.4,
         status: 'RED',
-        indicatorCodes: ['IND-TCH-01', 'IND-TCH-02']
+        indicatorCodes: ['IND-TCH-01', 'IND-TCH-02', 'IND-TCH-03', 'IND-TCH-04', 'IND-SQA-01']
       },
       {
         id: 'sub-sp-so4',
@@ -177,7 +177,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 107500,
         performanceScore: 75.5,
         status: 'YELLOW',
-        indicatorCodes: ['IND-HED-01', 'IND-HED-02', 'IND-STI-01']
+        indicatorCodes: ['IND-HED-01', 'IND-HED-02', 'IND-HED-03', 'IND-HED-04', 'IND-STI-01']
       },
       {
         id: 'sub-sp-so5',
@@ -189,7 +189,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 31500,
         performanceScore: 90.1,
         status: 'GREEN',
-        indicatorCodes: ['IND-SQA-01', 'IND-ICT-01']
+        indicatorCodes: ['IND-SQA-01', 'IND-SQA-02', 'IND-ICT-01', 'IND-ICT-02', 'IND-STI-02']
       }
     ]
   },
@@ -221,7 +221,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 110000,
         performanceScore: 84.2,
         status: 'GREEN',
-        indicatorCodes: ['IND-SEC-01', 'IND-BAS-01']
+        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02', 'IND-BAS-01', 'IND-BAS-02', 'IND-SEC-03']
       },
       {
         id: 'sub-sdg-43',
@@ -233,7 +233,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 121000,
         performanceScore: 78.8,
         status: 'YELLOW',
-        indicatorCodes: ['IND-TVET-01', 'IND-HED-01']
+        indicatorCodes: ['IND-TVET-01', 'IND-HED-01', 'IND-HED-03', 'IND-TVET-03', 'IND-HED-02']
       },
       {
         id: 'sub-sdg-44',
@@ -245,7 +245,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 32000,
         performanceScore: 84.0,
         status: 'GREEN',
-        indicatorCodes: ['IND-TVET-02']
+        indicatorCodes: ['IND-TVET-02', 'IND-TVET-04', 'IND-STI-01', 'IND-HED-04', 'IND-TVET-01']
       },
       {
         id: 'sub-sdg-45',
@@ -257,7 +257,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 48000,
         performanceScore: 82.1,
         status: 'GREEN',
-        indicatorCodes: ['IND-SEC-02']
+        indicatorCodes: ['IND-SEC-02', 'IND-HED-03', 'IND-SEC-01', 'IND-BAS-01', 'IND-TCH-01']
       },
       {
         id: 'sub-sdg-4c',
@@ -269,7 +269,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 21000,
         performanceScore: 67.4,
         status: 'RED',
-        indicatorCodes: ['IND-TCH-01', 'IND-TCH-02']
+        indicatorCodes: ['IND-TCH-01', 'IND-TCH-02', 'IND-TCH-03', 'IND-TCH-04', 'IND-SQA-01']
       }
     ]
   },
@@ -301,7 +301,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 62000,
         performanceScore: 86.4,
         status: 'GREEN',
-        indicatorCodes: ['IND-BAS-01']
+        indicatorCodes: ['IND-BAS-01', 'IND-BAS-02', 'IND-BAS-03', 'IND-SEC-01', 'IND-SQA-01']
       },
       {
         id: 'sub-ccm-c3',
@@ -313,7 +313,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 48000,
         performanceScore: 82.1,
         status: 'GREEN',
-        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02']
+        indicatorCodes: ['IND-SEC-01', 'IND-SEC-02', 'IND-SEC-03', 'IND-SEC-04', 'IND-ICT-01']
       },
       {
         id: 'sub-ccm-c6',
@@ -325,7 +325,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 32000,
         performanceScore: 84.0,
         status: 'GREEN',
-        indicatorCodes: ['IND-TVET-01']
+        indicatorCodes: ['IND-TVET-01', 'IND-TVET-02', 'IND-TVET-03', 'IND-TVET-04', 'IND-HED-01']
       },
       {
         id: 'sub-ccm-c8',
@@ -337,7 +337,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 89000,
         performanceScore: 73.6,
         status: 'YELLOW',
-        indicatorCodes: ['IND-HED-01', 'IND-HED-02']
+        indicatorCodes: ['IND-HED-01', 'IND-HED-02', 'IND-HED-03', 'IND-HED-04', 'IND-STI-01']
       },
       {
         id: 'sub-ccm-c9',
@@ -349,7 +349,7 @@ export const mockFrameworks: Framework[] = [
         allocatedBudgetTZS: 18500,
         performanceScore: 79.5,
         status: 'YELLOW',
-        indicatorCodes: ['IND-STI-01']
+        indicatorCodes: ['IND-STI-01', 'IND-STI-02', 'IND-HED-04', 'IND-ICT-02', 'IND-SQA-02']
       }
     ]
   }
@@ -1287,6 +1287,526 @@ export const mockIndicators: IndicatorMetadata[] = [
       { year: '2025', planned: 45.0, actual: 44.0 },
       { year: '2026', planned: 53.0, actual: 48.5 },
       { year: '2027', planned: 60.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-BAS-02',
+    name: 'Primary Education Net Enrolment Rate (NER)',
+    definition: 'Percentage of primary school-age children (7–13 years) enrolled in primary school.',
+    unit: '%',
+    baseline: 91.2,
+    baselineYear: '2022',
+    target: 99.0,
+    targetYear: '2027',
+    actual: 96.8,
+    previousActual: 94.5,
+    isInverse: false,
+    reportingFrequency: 'Annually',
+    dataSource: 'BEST / Basic Education Statistics Tanzania & MoEST DBE',
+    responsibleDepartmentId: 'dbe',
+    responsibleDepartmentName: 'Division of Basic Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-06-30',
+    relatedProjectIds: ['ep4r'],
+    periodData: {
+      '2024/25': { target: 94.0, actual: 94.5 },
+      '2025/26': { target: 96.5, actual: 95.8 },
+      '2026/27': { target: 98.0, actual: 96.8 },
+      '2027/28': { target: 99.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Primary Education Access', target: '99.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 1: Universal Primary Enrolment', target: '99.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.1: Free Universal Primary Education', target: '100.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 1: Primary Education Enrolment Guarantee', target: '99.0%', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 91.2, actual: 91.2 },
+      { year: '2023', planned: 93.0, actual: 93.4 },
+      { year: '2024', planned: 94.0, actual: 94.5 },
+      { year: '2025', planned: 96.5, actual: 95.8 },
+      { year: '2026', planned: 98.0, actual: 96.8 },
+      { year: '2027', planned: 99.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-BAS-03',
+    name: 'Primary School Pupil-Classroom Ratio (PCR)',
+    definition: 'Average number of primary school pupils per permanent standard classroom.',
+    unit: 'Pupils/Classroom',
+    baseline: 58.0,
+    baselineYear: '2022',
+    target: 40.0,
+    targetYear: '2027',
+    actual: 43.5,
+    previousActual: 47.0,
+    isInverse: true,
+    reportingFrequency: 'Annually',
+    dataSource: 'PO-RALG School Information System & MoEST DBE',
+    responsibleDepartmentId: 'dbe',
+    responsibleDepartmentName: 'Division of Basic Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-06-30',
+    relatedProjectIds: ['ep4r'],
+    periodData: {
+      '2024/25': { target: 48.0, actual: 47.0 },
+      '2025/26': { target: 44.0, actual: 44.8 },
+      '2026/27': { target: 42.0, actual: 43.5 },
+      '2027/28': { target: 40.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Classroom Infrastructure Quality', target: '≤ 40.0', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 1: De-decongestion of Classrooms', target: '≤ 40.0', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.a: Safe Learning Environment Standards', target: '≤ 40.0', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 1: Classroom De-congestion Program', target: '≤ 40.0', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 58.0, actual: 58.0 },
+      { year: '2023', planned: 52.0, actual: 51.5 },
+      { year: '2024', planned: 48.0, actual: 47.0 },
+      { year: '2025', planned: 44.0, actual: 44.8 },
+      { year: '2026', planned: 42.0, actual: 43.5 },
+      { year: '2027', planned: 40.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-SEC-03',
+    name: 'Form 4 Examination Pass Rate in Science and Mathematics',
+    definition: 'Percentage of Form 4 CSEC examination candidates achieving Division I-III grade passes in physics, chemistry, biology, and mathematics.',
+    unit: '%',
+    baseline: 42.0,
+    baselineYear: '2022',
+    target: 70.0,
+    targetYear: '2027',
+    actual: 62.4,
+    previousActual: 56.1,
+    isInverse: false,
+    reportingFrequency: 'Annually',
+    dataSource: 'NECTA National Examination Results Database',
+    responsibleDepartmentId: 'dse',
+    responsibleDepartmentName: 'Division of Secondary Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-05-15',
+    relatedProjectIds: ['sequip', 'ep4r'],
+    periodData: {
+      '2024/25': { target: 54.0, actual: 56.1 },
+      '2025/26': { target: 60.0, actual: 59.5 },
+      '2026/27': { target: 65.0, actual: 62.4 },
+      '2027/28': { target: 70.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 2: STEM Excellence in Secondary', target: '70.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 1: Secondary Academic Quality & STEM', target: '70.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.1: Relevant Learning Outcomes in Secondary', target: '75.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 3: Science & Mathematics Performance Upgrade', target: '70.0%', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 42.0, actual: 42.0 },
+      { year: '2023', planned: 48.0, actual: 49.2 },
+      { year: '2024', planned: 54.0, actual: 56.1 },
+      { year: '2025', planned: 60.0, actual: 59.5 },
+      { year: '2026', planned: 65.0, actual: 62.4 },
+      { year: '2027', planned: 70.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-SEC-04',
+    name: 'Percentage of Ward Secondary Schools Equipped with Functional Science Laboratories',
+    definition: 'Percentage of public ward secondary schools possessing fully equipped biology, chemistry, and physics labs with operational gas and water fittings.',
+    unit: '%',
+    baseline: 35.0,
+    baselineYear: '2022',
+    target: 85.0,
+    targetYear: '2027',
+    actual: 74.2,
+    previousActual: 64.0,
+    isInverse: false,
+    reportingFrequency: 'Bi-Annually',
+    dataSource: 'SEQUIP Infrastructure Tracker & MoEST DSE',
+    responsibleDepartmentId: 'dse',
+    responsibleDepartmentName: 'Division of Secondary Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-06-15',
+    relatedProjectIds: ['sequip'],
+    periodData: {
+      '2024/25': { target: 60.0, actual: 64.0 },
+      '2025/26': { target: 70.0, actual: 69.8 },
+      '2026/27': { target: 78.0, actual: 74.2 },
+      '2027/28': { target: 85.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 2: Secondary Practical Science Infrastructure', target: '85.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 1: Secondary Science Labs Expansion', target: '85.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.a: Practical Science Facilities', target: '90.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 3: Ward Secondary Science Lab Construction', target: '85.0%', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 35.0, actual: 35.0 },
+      { year: '2023', planned: 48.0, actual: 51.0 },
+      { year: '2024', planned: 60.0, actual: 64.0 },
+      { year: '2025', planned: 70.0, actual: 69.8 },
+      { year: '2026', planned: 78.0, actual: 74.2 },
+      { year: '2027', planned: 85.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-TCH-03',
+    name: 'Percentage of Teachers College Tutors Trained in Digital LMS Pedagogy',
+    definition: 'Percentage of tutors in public Teachers Colleges (TCs) certified in integrating digital Learning Management Systems into teacher preparation.',
+    unit: '%',
+    baseline: 20.0,
+    baselineYear: '2022',
+    target: 90.0,
+    targetYear: '2027',
+    actual: 78.5,
+    previousActual: 62.0,
+    isInverse: false,
+    reportingFrequency: 'Annually',
+    dataSource: 'Teacher Education Management Information System (TEMIS)',
+    responsibleDepartmentId: 'dte',
+    responsibleDepartmentName: 'Division of Teacher Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-07-01',
+    relatedProjectIds: ['ep4r', 'sequip'],
+    periodData: {
+      '2024/25': { target: 55.0, actual: 62.0 },
+      '2025/26': { target: 70.0, actual: 71.0 },
+      '2026/27': { target: 82.0, actual: 78.5 },
+      '2027/28': { target: 90.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Modern Digital Teacher Preparation', target: '90.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 3: Digital Pedagogy in Teachers Colleges', target: '90.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.c: ICT-Skilled Teacher Educators', target: '95.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 5: Teachers College Digital Modernization', target: '90.0%', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 20.0, actual: 20.0 },
+      { year: '2023', planned: 38.0, actual: 41.5 },
+      { year: '2024', planned: 55.0, actual: 62.0 },
+      { year: '2025', planned: 70.0, actual: 71.0 },
+      { year: '2026', planned: 82.0, actual: 78.5 },
+      { year: '2027', planned: 90.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-TCH-04',
+    name: 'Primary School Pupil-Teacher Ratio (PTR)',
+    definition: 'Average number of primary school pupils per qualified primary school teacher nationwide.',
+    unit: 'Pupils/Teacher',
+    baseline: 54.0,
+    baselineYear: '2022',
+    target: 40.0,
+    targetYear: '2027',
+    actual: 44.1,
+    previousActual: 47.8,
+    isInverse: true,
+    reportingFrequency: 'Annually',
+    dataSource: 'BEST / PO-RALG School Information System & MoEST DTE',
+    responsibleDepartmentId: 'dte',
+    responsibleDepartmentName: 'Division of Teacher Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-06-30',
+    relatedProjectIds: ['ep4r'],
+    periodData: {
+      '2024/25': { target: 48.0, actual: 47.8 },
+      '2025/26': { target: 45.0, actual: 45.9 },
+      '2026/27': { target: 42.0, actual: 44.1 },
+      '2027/28': { target: 40.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Primary Teacher Recruitment', target: '≤ 40.0', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 3: Primary Staffing Allocation Balance', target: '≤ 40.0', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.c: Qualified Primary Teacher Ratios', target: '≤ 40.0', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 5: Primary Teacher Employment Expansion', target: '≤ 40.0', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 54.0, actual: 54.0 },
+      { year: '2023', planned: 51.0, actual: 50.2 },
+      { year: '2024', planned: 48.0, actual: 47.8 },
+      { year: '2025', planned: 45.0, actual: 45.9 },
+      { year: '2026', planned: 42.0, actual: 44.1 },
+      { year: '2027', planned: 40.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-TVET-03',
+    name: 'Number of Dual Apprenticeship Trainees Enrolled in VETA Centers',
+    definition: 'Total annual student intake in VETA dual apprenticeship programs partnering with local industrial employers.',
+    unit: 'Trainees',
+    baseline: 4500,
+    baselineYear: '2022',
+    target: 25000,
+    targetYear: '2027',
+    actual: 18400,
+    previousActual: 14200,
+    isInverse: false,
+    reportingFrequency: 'Annually',
+    dataSource: 'VETA National Apprenticeship Registry & MoEST DTVET',
+    responsibleDepartmentId: 'dtvet',
+    responsibleDepartmentName: 'Division of Technical & Vocational Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-07-05',
+    relatedProjectIds: ['ep4r'],
+    periodData: {
+      '2024/25': { target: 12000, actual: 14200 },
+      '2025/26': { target: 17000, actual: 16500 },
+      '2026/27': { target: 21000, actual: 18400 },
+      '2027/28': { target: 25000, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 2: Industry-Linked Apprenticeships', target: '25,000', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 2: Dual Vocational Apprenticeship Growth', target: '25,000', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.4: Technical Vocational Skills Training', target: '25,000', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 6: Industrial Vocational Training Partnerships', target: '25,000', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 4500, actual: 4500 },
+      { year: '2023', planned: 8000, actual: 9500 },
+      { year: '2024', planned: 12000, actual: 14200 },
+      { year: '2025', planned: 17000, actual: 16500 },
+      { year: '2026', planned: 21000, actual: 18400 },
+      { year: '2027', planned: 25000, actual: null }
+    ]
+  },
+  {
+    code: 'IND-TVET-04',
+    name: 'Percentage of Accredited TVET Programs Aligned to National Occupational Standards',
+    definition: 'Percentage of VETA and NACTVET diploma and certificate courses reviewed and aligned with CBT (Competency-Based Training) occupational standards.',
+    unit: '%',
+    baseline: 40.0,
+    baselineYear: '2022',
+    target: 95.0,
+    targetYear: '2027',
+    actual: 86.0,
+    previousActual: 76.5,
+    isInverse: false,
+    reportingFrequency: 'Bi-Annually',
+    dataSource: 'NACTVET Accreditation Portal & MoEST DTVET',
+    responsibleDepartmentId: 'dtvet',
+    responsibleDepartmentName: 'Division of Technical & Vocational Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-06-20',
+    relatedProjectIds: ['heet'],
+    periodData: {
+      '2024/25': { target: 70.0, actual: 76.5 },
+      '2025/26': { target: 82.0, actual: 81.0 },
+      '2026/27': { target: 90.0, actual: 86.0 },
+      '2027/28': { target: 95.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 2: TVET Curriculum Quality & CBT Standards', target: '95.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 2: TVET Quality Accreditation', target: '95.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.4: Market-Relevant Technical Training', target: '95.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 6: VETA Curriculum Modernization', target: '95.0%', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 40.0, actual: 40.0 },
+      { year: '2023', planned: 55.0, actual: 58.4 },
+      { year: '2024', planned: 70.0, actual: 76.5 },
+      { year: '2025', planned: 82.0, actual: 81.0 },
+      { year: '2026', planned: 90.0, actual: 86.0 },
+      { year: '2027', planned: 95.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-HED-03',
+    name: 'Female Enrolment Percentage in University STEM Degree Programs',
+    definition: 'Percentage of total undergraduate and postgraduate STEM degree students in public and private universities who are female.',
+    unit: '%',
+    baseline: 28.5,
+    baselineYear: '2022',
+    target: 45.0,
+    targetYear: '2027',
+    actual: 39.2,
+    previousActual: 34.8,
+    isInverse: false,
+    reportingFrequency: 'Annually',
+    dataSource: 'TCU Admission System & HEET M&E Gender Unit',
+    responsibleDepartmentId: 'dhe',
+    responsibleDepartmentName: 'Division of Higher Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-07-01',
+    relatedProjectIds: ['heet'],
+    periodData: {
+      '2024/25': { target: 34.0, actual: 34.8 },
+      '2025/26': { target: 38.0, actual: 37.0 },
+      '2026/27': { target: 42.0, actual: 39.2 },
+      '2027/28': { target: 45.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 3: Female STEM Inclusion in Universities', target: '45.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 4: Gender Parity in Higher STEM', target: '45.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.5: Gender Parity in Higher Education', target: '50.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 8: Female University STEM Scholarships', target: '45.0%', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 28.5, actual: 28.5 },
+      { year: '2023', planned: 31.0, actual: 32.1 },
+      { year: '2024', planned: 34.0, actual: 34.8 },
+      { year: '2025', planned: 38.0, actual: 37.0 },
+      { year: '2026', planned: 42.0, actual: 39.2 },
+      { year: '2027', planned: 45.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-HED-04',
+    name: 'Number of Commercialized University Research Patents and Innovations',
+    definition: 'Total number of registered patents, innovations, and technologies commercialized through university incubation centers.',
+    unit: 'Patents',
+    baseline: 12,
+    baselineYear: '2022',
+    target: 60,
+    targetYear: '2027',
+    actual: 42,
+    previousActual: 31,
+    isInverse: false,
+    reportingFrequency: 'Annually',
+    dataSource: 'BRELA Intellectual Property Office & TCU Innovation Registry',
+    responsibleDepartmentId: 'dhe',
+    responsibleDepartmentName: 'Division of Higher Education',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-06-30',
+    relatedProjectIds: ['heet'],
+    periodData: {
+      '2024/25': { target: 28, actual: 31 },
+      '2025/26': { target: 40, actual: 36 },
+      '2026/27': { target: 50, actual: 42 },
+      '2027/28': { target: 60, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 3: Higher Ed Commercialization & Patents', target: '60 Patents', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 4: University Research Commercialization', target: '60 Patents', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.b: Science & Technology Innovation Patents', target: '60 Patents', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 8: Commercialization of Tanzanian University Patents', target: '60 Patents', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 12, actual: 12 },
+      { year: '2023', planned: 20, actual: 22 },
+      { year: '2024', planned: 28, actual: 31 },
+      { year: '2025', planned: 40, actual: 36 },
+      { year: '2026', planned: 50, actual: 42 },
+      { year: '2027', planned: 60, actual: null }
+    ]
+  },
+  {
+    code: 'IND-STI-02',
+    name: 'National R&D Gross Expenditure Contribution as % of GDP',
+    definition: 'Total national expenditure (public and private) dedicated to scientific research and development expressed as percentage of GDP.',
+    unit: '%',
+    baseline: 0.35,
+    baselineYear: '2022',
+    target: 1.00,
+    targetYear: '2027',
+    actual: 0.72,
+    previousActual: 0.58,
+    isInverse: false,
+    reportingFrequency: 'Annually',
+    dataSource: 'COSTECH & Ministry of Finance National Accounts',
+    responsibleDepartmentId: 'dsti',
+    responsibleDepartmentName: 'Division of Science, Technology & Innovation',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-06-30',
+    relatedProjectIds: ['heet'],
+    periodData: {
+      '2024/25': { target: 0.55, actual: 0.58 },
+      '2025/26': { target: 0.70, actual: 0.65 },
+      '2026/27': { target: 0.85, actual: 0.72 },
+      '2027/28': { target: 1.00, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 3: National R&D GDP Investment', target: '1.00%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 4: Increase National R&D Funding', target: '1.00%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.b: Scientific R&D Capacity Spending', target: '1.00%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 9: 1% GDP National Research Allocation', target: '1.00%', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 0.35, actual: 0.35 },
+      { year: '2023', planned: 0.45, actual: 0.47 },
+      { year: '2024', planned: 0.55, actual: 0.58 },
+      { year: '2025', planned: 0.70, actual: 0.65 },
+      { year: '2026', planned: 0.85, actual: 0.72 },
+      { year: '2027', planned: 1.00, actual: null }
+    ]
+  },
+  {
+    code: 'IND-SQA-02',
+    name: 'Percentage of Schools Receiving Full Quality Assurance Inspection Annually',
+    definition: 'Percentage of registered primary and secondary schools receiving a full statutory School Quality Assurance (SQA) inspection during the financial year.',
+    unit: '%',
+    baseline: 28.0,
+    baselineYear: '2022',
+    target: 75.0,
+    targetYear: '2027',
+    actual: 64.8,
+    previousActual: 54.0,
+    isInverse: false,
+    reportingFrequency: 'Quarterly',
+    dataSource: 'e-SQAS Electronic Inspection System & SQA Department',
+    responsibleDepartmentId: 'sqa',
+    responsibleDepartmentName: 'Department of School Quality Assurance',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-07-20',
+    relatedProjectIds: ['sequip', 'ep4r'],
+    periodData: {
+      '2024/25': { target: 50.0, actual: 54.0 },
+      '2025/26': { target: 62.0, actual: 60.1 },
+      '2026/27': { target: 70.0, actual: 64.8 },
+      '2027/28': { target: 75.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 4: SQA Coverage & Monitoring Frequency', target: '75.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 5: Full School Inspection Coverage', target: '75.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.a: Quality Assurance Supervision', target: '80.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 7: Annual School Quality Inspection Target', target: '75.0%', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 28.0, actual: 28.0 },
+      { year: '2023', planned: 40.0, actual: 42.5 },
+      { year: '2024', planned: 50.0, actual: 54.0 },
+      { year: '2025', planned: 62.0, actual: 60.1 },
+      { year: '2026', planned: 70.0, actual: 64.8 },
+      { year: '2027', planned: 75.0, actual: null }
+    ]
+  },
+  {
+    code: 'IND-ICT-02',
+    name: 'Percentage of Teachers Colleges Connected to National Broadband Fiber',
+    definition: 'Percentage of public Teachers Colleges equipped with high-speed fiber internet and campus Wi-Fi network for online teacher training.',
+    unit: '%',
+    baseline: 25.0,
+    baselineYear: '2022',
+    target: 100.0,
+    targetYear: '2027',
+    actual: 88.0,
+    previousActual: 72.0,
+    isInverse: false,
+    reportingFrequency: 'Quarterly',
+    dataSource: 'MoEST ICT Unit & e-GA Fiber Connectivity Dashboard',
+    responsibleDepartmentId: 'ict',
+    responsibleDepartmentName: 'ICT & Educational Technology Unit',
+    verificationStatus: 'Verified',
+    lastUpdated: '2026-07-10',
+    relatedProjectIds: ['sequip', 'heet'],
+    periodData: {
+      '2024/25': { target: 65.0, actual: 72.0 },
+      '2025/26': { target: 80.0, actual: 82.0 },
+      '2026/27': { target: 95.0, actual: 88.0 },
+      '2027/28': { target: 100.0, actual: null }
+    },
+    alignedFrameworks: [
+      { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 5: Teachers Colleges Broadband Fiber Rollout', target: '100.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 6: Fiber Broadband in Higher Institutions & TCs', target: '100.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.a: Digital Teacher Training Infrastructure', target: '100.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 7: 100% Teachers College Broadband Connection', target: '100.0%', contributionType: 'Direct' }
+    ],
+    historicalTrend: [
+      { year: '2022', planned: 25.0, actual: 25.0 },
+      { year: '2023', planned: 45.0, actual: 48.0 },
+      { year: '2024', planned: 65.0, actual: 72.0 },
+      { year: '2025', planned: 80.0, actual: 82.0 },
+      { year: '2026', planned: 95.0, actual: 88.0 },
+      { year: '2027', planned: 100.0, actual: null }
     ]
   }
 ];
