@@ -852,6 +852,7 @@ export const mockIndicators: IndicatorMetadata[] = [
     },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Objective 2: Gender Parity & Retention in Secondary', target: '80.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 1: Female Student Retention', target: '80.0%', contributionType: 'Direct' },
       { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.5: Gender Equality in Education', target: '85.0%', contributionType: 'Direct' },
       { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 4: Girls Protection & Re-entry', target: '80.0%', contributionType: 'Direct' }
     ],
@@ -892,7 +893,8 @@ export const mockIndicators: IndicatorMetadata[] = [
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Learning Quality & Teacher Development', target: '85.0%', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 3: Upgrading Teacher Competency', target: '85.0%', contributionType: 'Direct' },
-      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.c: Qualified and Trained Teachers', target: '90.0%', contributionType: 'Direct' }
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.c: Qualified and Trained Teachers', target: '90.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 5: Teacher Quality & TCPD Rollout', target: '85.0%', contributionType: 'Direct' }
     ],
     historicalTrend: [
       { year: '2022', planned: 38.0, actual: 38.0 },
@@ -938,7 +940,9 @@ export const mockIndicators: IndicatorMetadata[] = [
     },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Quality Teaching Workforce', target: '≤ 35.0', contributionType: 'Direct' },
-      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.c: Qualified Teachers', target: '≤ 35.0', contributionType: 'Direct' }
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 3: Teacher Staffing Efficiency', target: '≤ 35.0', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.c: Qualified Teachers', target: '≤ 35.0', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 5: Optimal Pupil Teacher Ratio', target: '≤ 35.0', contributionType: 'Direct' }
     ],
     historicalTrend: [
       { year: '2022', planned: 48.0, actual: 48.0 },
@@ -1024,7 +1028,9 @@ export const mockIndicators: IndicatorMetadata[] = [
     },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 3: Higher Education Quality & Staffing', target: '55.0%', contributionType: 'Direct' },
-      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 4: Academic Excellence', target: '55.0%', contributionType: 'Direct' }
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 4: Academic Excellence', target: '55.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.3: Academic Capacity in Higher Ed', target: '55.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 8: Academic Staff Upgrading', target: '55.0%', contributionType: 'Direct' }
     ],
     historicalTrend: [
       { year: '2022', planned: 32.0, actual: 32.0 },
@@ -1102,7 +1108,9 @@ export const mockIndicators: IndicatorMetadata[] = [
     },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 2: Employability & Skills Alignment', target: '78.0%', contributionType: 'Direct' },
-      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.4: Relevant Skills for Employment', target: '80.0%', contributionType: 'Direct' }
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 2: TVET Graduate Employability', target: '78.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.4: Relevant Skills for Employment', target: '80.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 6: Youth Skills Employment', target: '78.0%', contributionType: 'Direct' }
     ],
     historicalTrend: [
       { year: '2022', planned: 54.0, actual: 54.0 },
@@ -1140,8 +1148,9 @@ export const mockIndicators: IndicatorMetadata[] = [
     },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 4: School Quality Assurance & Governance', target: '85.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 5: Governance & Standards Enforcement', target: '85.0%', contributionType: 'Direct' },
       { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.a: Safe & Effective Learning Environments', target: '90.0%', contributionType: 'Direct' },
-      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 5: Governance & Standards Enforcement', target: '85.0%', contributionType: 'Direct' }
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 7: School Inspection & Facilities', target: '85.0%', contributionType: 'Direct' }
     ],
     historicalTrend: [
       { year: '2022', planned: 48.0, actual: 48.0 },
@@ -1188,6 +1197,7 @@ export const mockIndicators: IndicatorMetadata[] = [
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 3: Research & Commercial Innovation', target: '120 Grants', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 4: Science & Technology Advancement', target: '120 Grants', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.b: Higher Ed Scholarships & Research', target: '120 Grants', contributionType: 'Direct' },
       { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 9: National Research Fund Expansion', target: '120 Grants', contributionType: 'Direct' }
     ],
     historicalTrend: [
@@ -1226,6 +1236,8 @@ export const mockIndicators: IndicatorMetadata[] = [
     },
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 1: Universal Equitable Access', target: '98.0%', contributionType: 'Direct' },
+      { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 1: Capitation Grants Timely Delivery', target: '98.0%', contributionType: 'Direct' },
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.1: Free Basic Education Delivery', target: '100.0%', contributionType: 'Direct' },
       { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 1: Fee-Free Basic Education Execution', target: '100.0%', contributionType: 'Direct' }
     ],
     historicalTrend: [
@@ -1265,7 +1277,8 @@ export const mockIndicators: IndicatorMetadata[] = [
     alignedFrameworks: [
       { frameworkId: 'esdp', frameworkName: 'ESDP', objective: 'Strategic Priority 5: Digital Transformation & ICT Infrastructure', target: '60.0%', contributionType: 'Direct' },
       { frameworkId: 'sp', frameworkName: 'Strategic Plan', objective: 'SO 6: ICT Infrastructure Expansion', target: '60.0%', contributionType: 'Direct' },
-      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.a: Digital Education Infrastructure', target: '65.0%', contributionType: 'Direct' }
+      { frameworkId: 'sdg', frameworkName: 'SDG 4', objective: 'Target 4.a: Digital Education Infrastructure', target: '65.0%', contributionType: 'Direct' },
+      { frameworkId: 'ccm', frameworkName: 'CCM Manifesto', objective: 'Commitment 7: School ICT & Broadband Connectivity', target: '60.0%', contributionType: 'Direct' }
     ],
     historicalTrend: [
       { year: '2022', planned: 12.0, actual: 12.0 },
