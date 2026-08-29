@@ -17,10 +17,14 @@ import {
   Globe2,
   CheckCircle2,
   AlertTriangle,
-  Info
+  Info,
+  Search,
+  ArrowUpRight,
+  Sparkles,
+  BarChart3
 } from 'lucide-react';
 import { useDashboard } from '../../context/DashboardContext';
-import type { TheoryOfChangeNode } from '../../types/dashboard';
+import type { TheoryOfChangeNode, PerformanceStatus } from '../../types/dashboard';
 
 export const TheoryOfChangeExplorer: React.FC = () => {
   const { 
@@ -49,6 +53,10 @@ export const TheoryOfChangeExplorer: React.FC = () => {
 
   // Flow chain priority filter state
   const [selectedChainPriorityId, setSelectedChainPriorityId] = useState<string>('all');
+  
+  // Table search & status filter state
+  const [tableSearchQuery, setTableSearchQuery] = useState<string>('');
+  const [tableStatusFilter, setTableStatusFilter] = useState<string>('all');
 
   const toggleNodeExpansion = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -660,66 +668,283 @@ export const TheoryOfChangeExplorer: React.FC = () => {
       )}
 
       {/* Indicator Table View */}
-      {tocVisualization === 'table' && (
-        <div className="dashboard-card p-5 overflow-x-auto">
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <h3 className="text-sm font-bold text-slate-900">Linked Key Performance Indicators ({activeFwObj.name})</h3>
-              <p className="text-xs text-slate-500">Displaying {filteredIndicators.length} indicators aligned to {activeFwObj.fullName}</p>
-            </div>
-            <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded border border-blue-100">
-              {activeFwObj.code}
-            </span>
-          </div>
+      {tocVisualization === 'table' && (() => {
+        // Filter indicators by search query and status filter
+        const tableFilteredIndicators = filteredIndicators.filter(ind => {
+          if (tableSearchQuery.trim()) {
+            const q = tableSearchQuery.toLowerCase();
+            const matchCode = ind.code.toLowerCase().includes(q);
+            const matchName = ind.name.toLowerCase().includes(q);
+            const matchDept = ind.responsibleDepartmentName.toLowerCase().includes(q);
+            if (!matchCode && !matchName && !matchDept) return false;
+          }
 
-          {filteredIndicators.length === 0 ? (
-            <p className="text-xs text-slate-500 italic p-4 text-center">No indicators found for this filter combination.</p>
-          ) : (
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-                  <th className="p-3">Code</th>
-                  <th className="p-3">Indicator Name</th>
-                  <th className="p-3">FY {filters.reportingPeriod} Target</th>
-                  <th className="p-3">FY {filters.reportingPeriod} Actual</th>
-                  <th className="p-3">Achievement</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Division</th>
-                  <th className="p-3">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 text-slate-800">
-                {filteredIndicators.map((ind) => {
-                  const ratio = ind.actual !== null 
-                    ? (ind.isInverse ? (ind.target / ind.actual) * 100 : (ind.actual / ind.target) * 100)
-                    : null;
-                  const achievementFormatted = ratio !== null ? `${Math.round(ratio * 10) / 10}%` : 'N/A';
-                  
-                  return (
-                    <tr key={ind.code} className="hover:bg-slate-50 transition-colors">
-                      <td className="p-3 font-mono font-bold text-blue-700">{ind.code}</td>
-                      <td className="p-3 font-bold text-slate-900 max-w-xs">{ind.name}</td>
-                      <td className="p-3 font-semibold">{ind.target} {ind.unit}</td>
-                      <td className="p-3 font-bold">{ind.actual !== null ? `${ind.actual} ${ind.unit}` : 'No Data'}</td>
-                      <td className="p-3 font-black text-slate-900">{achievementFormatted}</td>
-                      <td className="p-3">{getStatusBadge(ratio === null ? 'NODATA' : ratio >= 90 ? 'GREEN' : ratio >= 70 ? 'YELLOW' : 'RED')}</td>
-                      <td className="p-3 font-medium text-slate-600">{ind.responsibleDepartmentName}</td>
-                      <td className="p-3">
-                        <button
-                          onClick={() => openIndicatorByCode(ind.code)}
-                          className="px-2.5 py-1 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded text-xs font-bold transition-colors"
-                        >
-                          Inspect
-                        </button>
-                      </td>
+          if (tableStatusFilter !== 'all') {
+            const ratio = ind.actual !== null 
+              ? (ind.isInverse ? (ind.target / ind.actual) * 100 : (ind.actual / ind.target) * 100)
+              : null;
+            const currentStatus: PerformanceStatus = ratio === null ? 'NODATA' : ratio >= 90 ? 'GREEN' : ratio >= 70 ? 'YELLOW' : 'RED';
+            if (tableStatusFilter !== currentStatus) return false;
+          }
+
+          return true;
+        });
+
+        // Compute summary counts
+        let greenCount = 0;
+        let yellowCount = 0;
+        let redCount = 0;
+        let totalScore = 0;
+        let scoredCount = 0;
+
+        tableFilteredIndicators.forEach(ind => {
+          const ratio = ind.actual !== null 
+            ? (ind.isInverse ? (ind.target / ind.actual) * 100 : (ind.actual / ind.target) * 100)
+            : null;
+          if (ratio !== null) {
+            totalScore += ratio;
+            scoredCount++;
+            if (ratio >= 90) greenCount++;
+            else if (ratio >= 70) yellowCount++;
+            else redCount++;
+          }
+        });
+
+        const avgScore = scoredCount > 0 ? Math.round((totalScore / scoredCount) * 10) / 10 : 0;
+
+        return (
+          <div className="dashboard-card p-5 overflow-hidden">
+            
+            {/* Header and Filter Controls */}
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-4 border-b border-slate-200 pb-4">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-[10px] font-black rounded uppercase">
+                    {activeFwObj.code} Linked Indicators
+                  </span>
+                  <h3 className="text-base font-black text-slate-900">
+                    Results Indicators Matrix ({tableFilteredIndicators.length})
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Displaying Key Performance Indicators aligned to {activeFwObj.fullName} • FY {filters.reportingPeriod}
+                </p>
+              </div>
+
+              {/* Action Filters Bar */}
+              <div className="flex items-center gap-3 flex-wrap w-full lg:w-auto">
+                
+                {/* Search Box */}
+                <div className="relative flex-1 sm:w-60">
+                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+                  <input
+                    type="text"
+                    value={tableSearchQuery}
+                    onChange={(e) => setTableSearchQuery(e.target.value)}
+                    placeholder="Search code, metric, division..."
+                    className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-slate-300 text-xs text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50 focus:bg-white"
+                  />
+                </div>
+
+                {/* Status Filter Pill Buttons */}
+                <div className="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs">
+                  <button
+                    onClick={() => setTableStatusFilter('all')}
+                    className={`px-2 py-1 rounded text-xs font-bold transition-colors ${
+                      tableStatusFilter === 'all' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    All ({tableFilteredIndicators.length})
+                  </button>
+                  <button
+                    onClick={() => setTableStatusFilter('GREEN')}
+                    className={`px-2 py-1 rounded text-xs font-bold transition-colors ${
+                      tableStatusFilter === 'GREEN' ? 'bg-emerald-600 text-white shadow-xs' : 'text-emerald-700 hover:bg-emerald-50'
+                    }`}
+                  >
+                    🟢 On Target ({greenCount})
+                  </button>
+                  <button
+                    onClick={() => setTableStatusFilter('YELLOW')}
+                    className={`px-2 py-1 rounded text-xs font-bold transition-colors ${
+                      tableStatusFilter === 'YELLOW' ? 'bg-amber-500 text-white shadow-xs' : 'text-amber-700 hover:bg-amber-50'
+                    }`}
+                  >
+                    🟡 At Risk ({yellowCount})
+                  </button>
+                  <button
+                    onClick={() => setTableStatusFilter('RED')}
+                    className={`px-2 py-1 rounded text-xs font-bold transition-colors ${
+                      tableStatusFilter === 'RED' ? 'bg-red-600 text-white shadow-xs' : 'text-red-700 hover:bg-red-50'
+                    }`}
+                  >
+                    🔴 Delayed ({redCount})
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            {/* Quick Metrics Summary Banner */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200 mb-4 text-xs">
+              <div className="flex items-center space-x-2">
+                <BarChart3 className="w-4 h-4 text-blue-600" />
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase font-semibold">Average Achievement</span>
+                  <p className="font-black text-slate-900 text-sm">{avgScore}%</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase font-semibold">On Target Rate</span>
+                  <p className="font-black text-emerald-600 text-sm">
+                    {tableFilteredIndicators.length > 0 ? Math.round((greenCount / tableFilteredIndicators.length) * 100) : 0}% ({greenCount}/{tableFilteredIndicators.length})
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <AlertTriangle className="w-4 h-4 text-amber-500" />
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase font-semibold">At Risk Metrics</span>
+                  <p className="font-black text-amber-600 text-sm">{yellowCount} Indicators</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Sparkles className="w-4 h-4 text-purple-600" />
+                <div>
+                  <span className="text-[10px] text-slate-500 uppercase font-semibold">Framework Plan</span>
+                  <p className="font-black text-purple-700 text-sm">{activeFwObj.name} ({activeFwObj.period})</p>
+                </div>
+              </div>
+            </div>
+
+            {tableFilteredIndicators.length === 0 ? (
+              <div className="p-8 text-center bg-slate-50 rounded-xl border border-slate-200">
+                <p className="text-xs text-slate-500 italic">No indicators found matching the search criteria.</p>
+                <button
+                  onClick={() => { setTableSearchQuery(''); setTableStatusFilter('all'); }}
+                  className="mt-2 px-3 py-1 bg-blue-600 text-white rounded text-xs font-bold"
+                >
+                  Reset Filter
+                </button>
+              </div>
+            ) : (
+              <div className="overflow-x-auto border border-slate-200 rounded-xl shadow-2xs">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="bg-slate-900 text-white font-bold text-[11px] uppercase tracking-wider">
+                      <th className="p-3">Code</th>
+                      <th className="p-3">Indicator Name & Description</th>
+                      <th className="p-3">{activeFwObj.name} Objective Alignment</th>
+                      <th className="p-3">Baseline</th>
+                      <th className="p-3">FY {filters.reportingPeriod} Target</th>
+                      <th className="p-3">FY {filters.reportingPeriod} Actual</th>
+                      <th className="p-3 w-36">Achievement %</th>
+                      <th className="p-3">Status</th>
+                      <th className="p-3">Division</th>
+                      <th className="p-3 text-center">Action</th>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          )}
-        </div>
-      )}
+                  </thead>
+                  <tbody className="divide-y divide-slate-200 text-slate-800 bg-white">
+                    {tableFilteredIndicators.map((ind) => {
+                      const ratio = ind.actual !== null 
+                        ? (ind.isInverse ? (ind.target / ind.actual) * 100 : (ind.actual / ind.target) * 100)
+                        : null;
+                      const achievementPercent = ratio !== null ? Math.round(ratio * 10) / 10 : null;
+                      const achievementFormatted = ratio !== null ? `${achievementPercent}%` : 'No Data';
+
+                      // Find framework specific alignment
+                      const alignment = ind.alignedFrameworks.find(af => af.frameworkId === activeFwObj.id);
+
+                      const statusType: PerformanceStatus = ratio === null ? 'NODATA' : ratio >= 90 ? 'GREEN' : ratio >= 70 ? 'YELLOW' : 'RED';
+
+                      return (
+                        <tr key={ind.code} className="hover:bg-blue-50/40 transition-colors">
+                          <td className="p-3 font-mono font-black text-blue-700 whitespace-nowrap">
+                            <span className="px-2 py-1 bg-blue-50 border border-blue-200 rounded">
+                              {ind.code}
+                            </span>
+                          </td>
+                          <td className="p-3 max-w-xs">
+                            <p className="font-bold text-slate-900 leading-snug">{ind.name}</p>
+                            <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">{ind.definition}</p>
+                          </td>
+                          <td className="p-3 max-w-xs">
+                            {alignment ? (
+                              <div>
+                                <p className="font-semibold text-slate-800 leading-snug">{alignment.objective}</p>
+                                <div className="flex items-center gap-1.5 mt-1">
+                                  <span className={`px-1.5 py-0.2 rounded text-[10px] font-bold ${
+                                    alignment.contributionType === 'Direct' 
+                                      ? 'bg-blue-100 text-blue-800' 
+                                      : 'bg-purple-100 text-purple-800'
+                                  }`}>
+                                    {alignment.contributionType}
+                                  </span>
+                                  <span className="text-[10px] text-slate-500 font-medium">Target: {alignment.target}</span>
+                                </div>
+                              </div>
+                            ) : (
+                              <span className="text-slate-400 italic">Sector-Wide Alignment</span>
+                            )}
+                          </td>
+                          <td className="p-3 whitespace-nowrap font-medium text-slate-600">
+                            {ind.baseline} {ind.unit} <span className="text-[10px] text-slate-400">({ind.baselineYear})</span>
+                          </td>
+                          <td className="p-3 whitespace-nowrap font-bold text-slate-700">
+                            {ind.target} {ind.unit}
+                          </td>
+                          <td className="p-3 whitespace-nowrap font-black text-slate-900">
+                            {ind.actual !== null ? `${ind.actual} ${ind.unit}` : <span className="text-slate-400 italic">No Data</span>}
+                          </td>
+                          <td className="p-3 whitespace-nowrap">
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between font-black text-slate-900">
+                                <span>{achievementFormatted}</span>
+                              </div>
+                              {ratio !== null && (
+                                <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex">
+                                  <div 
+                                    style={{ width: `${Math.min(ratio, 100)}%` }} 
+                                    className={`h-full rounded-full ${
+                                      ratio >= 90 ? 'bg-emerald-500' : ratio >= 70 ? 'bg-amber-500' : 'bg-red-500'
+                                    }`}
+                                  ></div>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="p-3 whitespace-nowrap">
+                            {getStatusBadge(statusType)}
+                          </td>
+                          <td className="p-3 whitespace-nowrap">
+                            <div className="flex items-center space-x-1.5 text-slate-700 font-semibold">
+                              <Building2 className="w-3.5 h-3.5 text-blue-600 flex-shrink-0" />
+                              <span className="truncate max-w-[140px]" title={ind.responsibleDepartmentName}>
+                                {ind.responsibleDepartmentName}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="p-3 text-center whitespace-nowrap">
+                            <button
+                              onClick={() => openIndicatorByCode(ind.code)}
+                              className="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-all shadow-xs flex items-center space-x-1 mx-auto"
+                            >
+                              <span>Inspect</span>
+                              <ArrowUpRight className="w-3 h-3" />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
     </div>
   );
